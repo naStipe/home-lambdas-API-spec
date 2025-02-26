@@ -391,7 +391,7 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-  "/users/{id}":
+  "/users/{id}/attributes/{attributeName}":
     put:
       operationId: updateUserAttribute
       summary: Update user attributes
@@ -406,28 +406,29 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: attributeName
+          in: path  
+          required: true
+          description: The name of the attribute to be updated, e.g., `isSeveraOptIn`.
+          schema:
+            type: string
       requestBody:
         description: updated user attributes
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Updateuserattribute"
+              $ref: "#/components/schemas/UpdateUserAttribute"
       responses:
         "200":
           description: User attributes retrieved successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Updateuserattribute"
+                $ref: "#/components/schemas/UpdateUserAttribute"
         "default":
           description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
 
-  "/users/{id}/attributes/{attributeName}":
     delete:
       operationId: removeUserAttribute
       summary: remove user attribute
@@ -438,7 +439,13 @@ paths:
         - name: id
           in: path
           required: true
-          description: ID of the user whose attribute should be deleted.
+          description: ID of the user whose attribute should be remove.
+          schema:
+            type: string
+        - name: attributeName
+          in: path  
+          required: true
+          description: The name of the attribute to be removed, e.g., `isSeveraOptIn`.
           schema:
             type: string
       responses:
@@ -446,11 +453,6 @@ paths:
           description: Attribute deleted successfully
         "default":
           description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
 
   "/users/{userId}":
     get:
@@ -1442,7 +1444,22 @@ components:
           type: integer
           format: int32
           description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
-
+          
+    UpdateUserAttribute:
+      type: object
+      description: Request to update a user's attribute
+      required:
+        - id
+        - attributes
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's ID in Keycloak.
+        attribtues:
+          $ref: "#/components/schemas/Attributes"
+        
+        
     Users-avatars:
       type: object
       description: Users avatars data
