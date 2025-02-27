@@ -409,7 +409,7 @@ paths:
         - name: attributeName
           in: path  
           required: true
-          description: The name of the attribute to be updated, e.g., `isSeveraOptIn`.
+          description: The name of the attribute to be updated. Allowed attributes `isSeveraOptIn`.
           schema:
             type: string
       requestBody:
@@ -439,7 +439,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: ID of the user whose attribute should be remove.
+          description: ID of the user whose attribute should be removed.
           schema:
             type: string
         - name: attributeName
