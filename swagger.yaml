@@ -445,7 +445,7 @@ paths:
         - name: attributeName
           in: path  
           required: true
-          description: The name of the attribute to be removed, e.g., `isSeveraOptIn`.
+          description: The name of the attribute to be removed from Keycloak and Severa  `isSeveraOptIn`.
           schema:
             type: string
       responses:
@@ -1458,8 +1458,13 @@ components:
           description: User's ID in Keycloak.
         attribtues:
           $ref: "#/components/schemas/Attributes"
-        
-        
+        severaUserId:
+          type: string
+          description: The Severa user ID associated with the Keycloak attribute.
+        severaKeyword:
+          type: string
+          description: The keyword returned from Severa API that is associated with the user.  
+
     Users-avatars:
       type: object
       description: Users avatars data
