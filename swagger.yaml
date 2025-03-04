@@ -1839,9 +1839,6 @@ components:
       properties:
         status:
           $ref: "#/components/schemas/VacationRequestStatuses"
-        message:
-          type: string
-          description: Date of vacation start
         createdBy:
           type: string
           format: uuid
