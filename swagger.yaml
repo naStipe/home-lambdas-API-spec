@@ -1456,7 +1456,7 @@ components:
           type: string
           format: uuid
           description: User's ID in Keycloak.
-        attribtues:
+        attributes:
           $ref: "#/components/schemas/Attributes"
         severaUserId:
           type: string
