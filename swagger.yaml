@@ -402,7 +402,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: The user attributes to be updated.
+          description: The id of the user whose attributes are to be updated. 
           schema:
             type: string
             format: uuid
@@ -421,7 +421,7 @@ paths:
               $ref: "#/components/schemas/UpdateUserAttribute"
       responses:
         "200":
-          description: User attributes retrieved successfully
+          description: User attributes updated successfully  
           content:
             application/json:
               schema:
