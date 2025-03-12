@@ -428,32 +428,7 @@ paths:
                 $ref: "#/components/schemas/UpdateUserAttribute"
         "default":
           description: Invalid request was sent to the server.
-
-    delete:
-      operationId: removeUserAttribute
-      summary: remove user attribute
-      description: remove a specific attribute from the user's profile
-      tags:
-        - attribute
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID of the user whose attribute should be removed.
-          schema:
-            type: string
-        - name: attributeName
-          in: path  
-          required: true
-          description: The name of the attribute to be removed from Keycloak and Severa  `isSeveraOptIn`.
-          schema:
-            type: string
-      responses:
-        "204":
-          description: Attribute deleted successfully
-        "default":
-          description: Invalid request was sent to the server.
-
+          
   "/users/{userId}":
     get:
       operationId: findUser
