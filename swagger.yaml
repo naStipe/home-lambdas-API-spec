@@ -425,7 +425,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UpdateUserAttribute"
+                $ref: "#/components/schemas/UpdateUserAttributeResponse"
         "default":
           description: Invalid request was sent to the server.
           
@@ -1432,13 +1432,41 @@ components:
           format: uuid
           description: User's ID in Keycloak.
         attributes:
+          $ref: "#/components/schemas/Attributes" 
+
+    UpdateUserAttributeResponse:
+      type: object
+      description: Response after updating user attributes.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's ID in Keycloak.
+        updatedAttributes:
           $ref: "#/components/schemas/Attributes"
-        severaUserId:
-          type: string
-          description: The Severa user ID associated with the Keycloak attribute.
-        severaKeyword:
-          type: string
-          description: The keyword returned from Severa API that is associated with the user.  
+        severaUser:
+          type: object
+          description: The user's information from Severa.
+          properties:
+            email:
+              type: string
+              description: The email address fetched from Severa.
+            severaUserId:
+              type: string
+              description: The Severa user ID associated with the Keycloak attribute.
+            severaKeyword:
+              type: string
+              description: The keyword returned from Severa API that is associated with the user.
+            keycloakResponse:
+              type: object
+              description: The response from the Keycloak update operation.
+              properties:
+                success:
+                  type: boolean
+                updatedFields:
+                  type: array
+                  items:
+                    type: string
 
     Users-avatars:
       type: object
