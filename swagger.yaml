@@ -1457,16 +1457,6 @@ components:
             severaKeyword:
               type: string
               description: The keyword returned from Severa API that is associated with the user.
-            keycloakResponse:
-              type: object
-              description: The response from the Keycloak update operation.
-              properties:
-                success:
-                  type: boolean
-                updatedFields:
-                  type: array
-                  items:
-                    type: string
 
     Users-avatars:
       type: object
