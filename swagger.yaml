@@ -393,7 +393,7 @@ paths:
 
   "/users/{id}/attributes/{attributeName}":
     put:
-      operationId: updateUserAttribute
+      operationId: updateUserAttributeResponse
       summary: Update user attributes
       description: Updates a user's attributes based on the provided data.
       tags:
@@ -418,7 +418,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateUserAttribute"
+              type: object
+              description: Request to update a user's attribute
+              required:
+                - id
+                - attributes
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: User's ID in Keycloak.
+                attributes:
+                  $ref: "#/components/schemas/Attributes" 
       responses:
         "200":
           description: User attributes updated successfully  
@@ -1419,20 +1430,6 @@ components:
           type: integer
           format: int32
           description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
-          
-    UpdateUserAttribute:
-      type: object
-      description: Request to update a user's attribute
-      required:
-        - id
-        - attributes
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: User's ID in Keycloak.
-        attributes:
-          $ref: "#/components/schemas/Attributes" 
 
     UpdateUserAttributeResponse:
       type: object
@@ -1444,19 +1441,28 @@ components:
           description: User's ID in Keycloak.
         updatedAttributes:
           $ref: "#/components/schemas/Attributes"
+        updateFields:
+          type: array
+          items:
+            type: string
+          description: List of attribute names that were updated.
         severaUser:
-          type: object
-          description: The user's information from Severa.
-          properties:
-            email:
-              type: string
-              description: The email address fetched from Severa.
-            severaUserId:
-              type: string
-              description: The Severa user ID associated with the Keycloak attribute.
-            severaKeyword:
-              type: string
-              description: The keyword returned from Severa API that is associated with the user.
+          $ref: "#/components/schemas/SeveraUser"
+
+    SeveraUser:
+      type: object
+      description: The user's information from Severa.
+      properties:
+        email:
+          type: string
+          description: The email address fetched from Severa.
+        severaUserId:
+          type: string
+          description: The Severa user ID associated with the Keycloak attribute.
+        severaKeyword:
+          type: string
+          description: The keyword returned from Severa API that is associated with the user.
+
 
     Users-avatars:
       type: object
