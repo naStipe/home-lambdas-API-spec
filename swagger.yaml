@@ -436,7 +436,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UpdateUserAttributeResponse"
+                $ref: "#/components/schemas/UpdateUserAttribute"
         "default":
           description: Invalid request was sent to the server.
           
