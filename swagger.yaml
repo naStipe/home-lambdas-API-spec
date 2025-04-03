@@ -393,7 +393,7 @@ paths:
 
   "/users/{id}/attributes/{attributeName}":
     put:
-      operationId: updateUserAttributeResponse
+      operationId: updateUserAttribute
       summary: Update user attributes
       description: Updates a user's attributes based on the provided data.
       tags:
