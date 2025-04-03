@@ -1431,7 +1431,7 @@ components:
           format: int32
           description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
 
-    UpdateUserAttributeResponse:
+    UpdateUserAttribute:
       type: object
       description: Response after updating user attributes.
       properties:
