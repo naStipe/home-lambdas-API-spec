@@ -391,6 +391,55 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
+  "/users/{id}/attributes/{attributeName}":
+    put:
+      operationId: updateUserAttribute
+      summary: Update user attributes
+      description: Updates a user's attributes based on the provided data.
+      tags:
+        - attribute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the user whose attributes are to be updated. 
+          schema:
+            type: string
+            format: uuid
+        - name: attributeName
+          in: path  
+          required: true
+          description: The name of the attribute to be updated. Allowed attributes `isSeveraOptIn`.
+          schema:
+            type: string
+      requestBody:
+        description: updated user attributes
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request to update a user's attribute
+              required:
+                - id
+                - attributes
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: User's ID in Keycloak.
+                attributes:
+                  $ref: "#/components/schemas/Attributes" 
+      responses:
+        "200":
+          description: User attributes updated successfully  
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateUserAttribute"
+        "default":
+          description: Invalid request was sent to the server.
+          
   "/users/{userId}":
     get:
       operationId: findUser
@@ -1586,6 +1635,39 @@ components:
           type: integer
           format: int32
           description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+
+    UpdateUserAttribute:
+      type: object
+      description: Response after updating user attributes.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's ID in Keycloak.
+        updatedAttributes:
+          $ref: "#/components/schemas/Attributes"
+        updateFields:
+          type: array
+          items:
+            type: string
+          description: List of attribute names that were updated.
+        severaUser:
+          $ref: "#/components/schemas/SeveraUser"
+
+    SeveraUser:
+      type: object
+      description: The user's information from Severa.
+      properties:
+        email:
+          type: string
+          description: The email address fetched from Severa.
+        severaUserId:
+          type: string
+          description: The Severa user ID associated with the Keycloak attribute.
+        severaKeyword:
+          type: string
+          description: The keyword returned from Severa API that is associated with the user.
+
 
     Users-avatars:
       type: object
