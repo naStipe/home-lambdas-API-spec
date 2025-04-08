@@ -1659,6 +1659,9 @@ components:
           description: URL to the image of the software
         status:
           $ref: "#/components/schemas/SoftwareStatus"
+        review:
+          type: string
+          description: User review of the software
         createdBy:
           type: string
           description: User who created the software entry
