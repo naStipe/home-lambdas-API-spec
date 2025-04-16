@@ -2315,5 +2315,5 @@ components:
       properties:
         path:
           type: string
-        mimeType:
+        contentType:
           type: string
