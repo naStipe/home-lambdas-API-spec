@@ -397,12 +397,12 @@ paths:
       summary: Update user attributes
       description: Updates a user's attributes based on the provided data.
       tags:
-        - attribute
+        - Users
       parameters:
         - name: id
           in: path
           required: true
-          description: The id of the user whose attributes are to be updated. 
+          description: The keycloak id of the user whose attributes are to be updated.
           schema:
             type: string
             format: uuid
@@ -413,23 +413,18 @@ paths:
           schema:
             type: string
       requestBody:
-        description: updated user attributes
+        description: Email of the user whose attribute is being updated.
         required: true
         content:
           application/json:
             schema:
               type: object
-              description: Request to update a user's attribute
               required:
-                - id
-                - attributes
+                - email
               properties:
-                id:
+                email:
                   type: string
-                  format: uuid
-                  description: User's ID in Keycloak.
-                attributes:
-                  $ref: "#/components/schemas/Attributes" 
+                  description: Email of the user whose attribute is being updated.
       responses:
         "200":
           description: User attributes updated successfully  
@@ -1411,7 +1406,7 @@ components:
           description: User`s ID in Severa
         isActive:
           type: boolean
-          description: Defining is user is active e.g. is employed.
+          description: Defining if user is active e.g. is employed.
         vacationDaysByYear:
           type: array
           items:
@@ -1439,13 +1434,12 @@ components:
           type: string
           format: uuid
           description: User's ID in Keycloak.
-        updatedAttributes:
-          $ref: "#/components/schemas/Attributes"
-        updateFields:
-          type: array
-          items:
-            type: string
-          description: List of attribute names that were updated.
+        updatedKeycloakAttributes:
+          type: object
+          properties:
+            severaUserId:
+              type: string
+              description: User's ID in Severa.
         severaUser:
           $ref: "#/components/schemas/SeveraUser"
 
@@ -1462,7 +1456,6 @@ components:
         severaKeyword:
           type: string
           description: The keyword returned from Severa API that is associated with the user.
-
 
     Users-avatars:
       type: object
