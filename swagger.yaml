@@ -8,6 +8,58 @@ security:
   - bearerAuth: []
 
 paths:
+  "/users/{userId}/vacation":
+    put:
+      operationId: updateUserVacation
+      summary: Update user vacation days
+      description: Update vacation days for a specific user by year.
+      tags:
+        - Update vacation
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the user to update vacation for
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vacationDays:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      remaining:
+                        type: integer
+                  description: Vacation days by year
+              required:
+                - vacationDays
+      responses:
+        "200":
+          description: Successfully updated the vacation days
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the updated user
+                  updatedFields:
+                    type: array
+                    items:
+                      type: string
+                    description: List of updated fields (e.g., `vacationDaysByYear`, `unspentVacationDaysByYear`, etc.)
+        "400":
+          description: Invalid request, missing required parameters or data
+        "500":
+          description: Server error while updating vacation days
   "/slack-avatar":
     get:
       operationId: slackAvatar
@@ -175,7 +227,7 @@ paths:
       tags:
         - Interest
       parameters:
-        - name: dealId 
+        - name: dealId
           in: path
           required: true
           schema:
@@ -322,7 +374,7 @@ paths:
                 $ref: "#/components/schemas/SoftwareRegistry"
         "default":
           description: Software entry not found
-          
+
     put:
       operationId: updateSoftwareById
       summary: Update software entry
@@ -407,7 +459,7 @@ paths:
             type: string
             format: uuid
         - name: attributeName
-          in: path  
+          in: path
           required: true
           description: The name of the attribute to be updated. Allowed attributes `isSeveraOptIn`.
           schema:
@@ -427,14 +479,14 @@ paths:
                   description: Email of the user whose attribute is being updated.
       responses:
         "200":
-          description: User attributes updated successfully  
+          description: User attributes updated successfully
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UpdateUserAttribute"
         "default":
           description: Invalid request was sent to the server.
-          
+
   "/users/{userId}":
     get:
       operationId: findUser
@@ -644,14 +696,14 @@ paths:
             application/json:
               schema:
                 type: array
-                items: 
+                items:
                   $ref: "#/components/schemas/Phase"
         "default":
           description: Invalid request was sent to the server.
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/severa/resourceAllocations":
     get:
@@ -737,7 +789,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/vacationRequests":
     get:
@@ -788,7 +840,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     post:
       operationId: createVacationRequest
       summary: Post a new vacation request
@@ -901,7 +953,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-                
+
   "/vacationRequests/{id}/statuses":
     get:
       operationId: listVacationRequestStatuses
@@ -1130,7 +1182,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TrelloCard"        
+                  $ref: "#/components/schemas/TrelloCard"
         "default":
           description: Failed to create card.
           content:
@@ -1171,7 +1223,7 @@ paths:
                   title:
                     type: string
                   description:
-                    type: string 
+                    type: string
         "default":
           description: Failed to create card.
           content:
@@ -1253,7 +1305,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: 
+                items:
                   $ref: "#/components/schemas/PdfFile"
         "default":
           description: Missing parameters.
@@ -1883,7 +1935,7 @@ components:
               createdBy:
                 type: string
                 description: Author of the comment
-    
+
     TrelloMember:
       type: object
       properties:
@@ -1896,18 +1948,18 @@ components:
         email:
           type: string
           description: Email of the Trello board member
-          
-    PdfFile: 
+
+    PdfFile:
       type: object
       properties:
         id:
           type: string
-        name: 
+        name:
           type: string
         content:
           type: string
           format: byte
-          description: Base64-encoded PDF content 
+          description: Base64-encoded PDF content
 
     Phase:
       type: object
@@ -2006,7 +2058,7 @@ components:
               description: Id of the user
             name:
               type: string
-              description: Name of the user        
+              description: Name of the user
         project:
           type: object
           description: A reference to Project Model in WorkHours Object
