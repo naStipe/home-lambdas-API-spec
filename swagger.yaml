@@ -2252,6 +2252,7 @@ components:
         - path
         - title
         - createdBy
+        - draft
       properties:
         id:
           type: string
@@ -2298,6 +2299,9 @@ components:
         description:
           type: string
           description: Short description - summary of the article content
+        draft:
+          type: boolean
+          description: Marker of draft articles
 
     Article:
       allOf:
