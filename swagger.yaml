@@ -1514,12 +1514,16 @@ paths:
           description: ID of the article entry to update
           schema:
             type: string
-        - name: userId
-          in: query
-          required: true
-          description: User ID who read article
-          schema:
-            type: string
+      requestBody:
+        description: Updated article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
       responses:
         "200":
           description: Updated article entry
