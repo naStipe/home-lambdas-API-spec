@@ -12,14 +12,14 @@ paths:
     put:
       operationId: updateUserVacation
       summary: Update user vacation days
-      description: Update vacation days for a specific user by year.
+      description: Update total and remaining vacation days for a specific user by year.
       tags:
         - Update vacation
       parameters:
         - name: userId
           in: path
           required: true
-          description: The ID of the user to update vacation for
+          description: The Keycloak ID of the user to update vacation for
           schema:
             type: string
       requestBody:
@@ -41,25 +41,26 @@ paths:
               required:
                 - vacationDays
       responses:
-        "200":
-          description: Successfully updated the vacation days
-          content:
-            application/json:
-              schema:
+  "200":
+    description: Successfully updated the vacation days
+    content:
+      application/json;charset=utf-8:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The Keycloak ID of the updated user
+            vacationDays:
+              type: object
+              additionalProperties:
                 type: object
                 properties:
-                  id:
-                    type: string
-                    description: The ID of the updated user
-                  updatedFields:
-                    type: array
-                    items:
-                      type: string
-                    description: List of updated fields (e.g., `vacationDaysByYear`, `unspentVacationDaysByYear`, etc.)
-        "400":
-          description: Invalid request, missing required parameters or data
-        "500":
-          description: Server error while updating vacation days
+                  total:
+                    type: integer
+                  remaining:
+                    type: integer
+                    
   "/slack-avatar":
     get:
       operationId: slackAvatar
