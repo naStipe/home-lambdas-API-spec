@@ -439,7 +439,7 @@ paths:
                 $ref: "#/components/schemas/UpdateUserAttribute"
         "default":
           description: Invalid request was sent to the server.
-          
+
   "/users/{userId}":
     get:
       operationId: findUser
@@ -1363,10 +1363,10 @@ paths:
       tags:
         - Article
       parameters:
-        - name: path
+        - name: pathPrefix
           required: false
           in: query
-          description: Get articles with specified path.
+          description: Get articles which start with specified path.
           schema:
             type: string
         - name: draft
@@ -1418,18 +1418,18 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/articles/{path}":
+  "/articles/{id}":
     get:
       operationId: getArticle
-      summary: Get article by path
-      description: Get an article by path
+      summary: Get article by id
+      description: Get an article by id
       tags:
         - Article
       parameters:
-        - name: path
+        - name: id
           required: true
           in: path
-          description: Get article with specified path.
+          description: Get article with specified id.
           schema:
             type: string
       responses:
@@ -1446,7 +1446,6 @@ paths:
               schema:
                   $ref: "#/components/schemas/Error"
 
-  "/articles/{id}":
     put:
       operationId: updateArticle
       summary: Update an article
@@ -1500,8 +1499,36 @@ paths:
         "default":
           description: Failed to delete article
 
+  "/articles/path":
+    get:
+      operationId: getArticleByPath
+      summary: Get article by path
+      description: Get an article by path
+      tags:
+        - Article
+      parameters:
+        - name: path
+          required: true
+          in: query
+          description: Get article with specified path.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+
   "/articles/{id}/read":
-    put:
+    post:
       operationId: readArticle
       summary: Read an article
       description: Read an article
