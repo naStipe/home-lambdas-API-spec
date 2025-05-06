@@ -3,64 +3,12 @@ info:
   title: Metatavu Home lambdas
   description: Metatavu Home lambdas
   version: 1.0.0
+  
 
 security:
   - bearerAuth: []
 
 paths:
-  "/users/{userId}/vacation":
-    put:
-      operationId: updateUserVacation
-      summary: Update user vacation days
-      description: Update total and remaining vacation days for a specific user by year.
-      tags:
-        - Update vacation
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          description: The Keycloak ID of the user to update vacation for
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                vacationDays:
-                  type: object
-                  additionalProperties:
-                    type: object
-                    properties:
-                      total:
-                        type: integer
-                      remaining:
-                        type: integer
-                  description: Vacation days by year
-              required:
-                - vacationDays
-      responses:
-  "200":
-    description: Successfully updated the vacation days
-    content:
-      application/json;charset=utf-8:
-        schema:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The Keycloak ID of the updated user
-            vacationDays:
-              type: object
-              additionalProperties:
-                type: object
-                properties:
-                  total:
-                    type: integer
-                  remaining:
-                    type: integer
-                    
   "/slack-avatar":
     get:
       operationId: slackAvatar
@@ -512,6 +460,63 @@ paths:
                 $ref: "#/components/schemas/User"
         "default":
           description: Invalid request was sent to the server.
+
+  "/users/{userId}/vacation":
+   put:
+    operationId: updateUserVacation
+    summary: Update user vacation days
+    description: Update vacation days for a specific user by year.
+    tags:
+      - Users
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        description: The Keycloak ID of the user to update vacation for
+        schema:
+          type: string
+          format: uuid
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              vacationDays:
+                type: object
+                description: Vacation days by year (e.g., "2024", "2025")
+                additionalProperties:
+                  type: object
+                  properties:
+                    total:
+                      type: integer
+                      description: Total vacation days allocated for the year
+                    remaining:
+                      type: integer
+                      description: Remaining vacation days for the year
+                example:
+                  "2024":
+                    total: 22
+                    remaining: 8
+                  "2025":
+                    total: 22
+                    remaining: 8
+            required:
+              - vacationDays
+    responses:
+      "200":
+        description: Successfully updated the vacation days
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      "default":
+        description: Invalid request was sent to the server.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"
 
   "/questionnaires":
     get:
