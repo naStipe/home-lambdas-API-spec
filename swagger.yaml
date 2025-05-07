@@ -3,7 +3,6 @@ info:
   title: Metatavu Home lambdas
   description: Metatavu Home lambdas
   version: 1.0.0
-  
 
 security:
   - bearerAuth: []
@@ -487,21 +486,14 @@ paths:
                 type: object
                 description: Vacation days by year (e.g., "2024", "2025")
                 additionalProperties:
-                  type: object
-                  properties:
-                    total:
-                      type: integer
-                      description: Total vacation days allocated for the year
-                    remaining:
-                      type: integer
-                      description: Remaining vacation days for the year
+                  $ref: "#/components/schemas/YearlyVacationDays"
                 example:
                   "2024":
                     total: 22
-                    remaining: 8
+                    remaining: 4
                   "2025":
                     total: 22
-                    remaining: 8
+                    remaining: 4
             required:
               - vacationDays
     responses:
@@ -1454,6 +1446,20 @@ components:
           description: User's email.
         attributes:
           $ref: "#/components/schemas/Attributes"
+
+    YearlyVacationDays:
+      type: object
+      description: Vacation allocation and balance for a specific year
+      required:
+       - total
+       - remaining
+      properties:
+        total:
+          type: integer
+          description: Total vacation days allocated for the year
+        remaining:
+          type: integer
+          description: Remaining vacation days for the year
 
     Attributes:
       type: object
