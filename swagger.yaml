@@ -1400,6 +1400,248 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/articles":
+    get:
+      operationId: getArticles
+      summary: List articles
+      description: Get a list of articles
+      tags:
+        - Article
+      parameters:
+        - name: pathPrefix
+          required: false
+          in: query
+          description: Get articles which start with specified path.
+          schema:
+            type: string
+        - name: draft
+          required: false
+          in: query
+          description: Get draft articles.
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of articles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleMetadata"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+
+    post: 
+      operationId: createArticle
+      summary: Post a new article
+      description: Add new article
+      tags:
+        - Article
+      requestBody:
+        description: New article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+      responses:
+        "200":
+          description: Created new article entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/{id}":
+    get:
+      operationId: getArticle
+      summary: Get article by id
+      description: Get an article by id
+      tags:
+        - Article
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Get article with specified id.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+
+    put:
+      operationId: updateArticle
+      summary: Update an article
+      description: Update an article
+      tags:
+        - Article
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the article entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+      responses:
+        "200":
+          description: Update article entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteArticle
+      summary: Delete article entry
+      description: Delete an article entry
+      tags:
+        - Article
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the article entry to delete
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article entry deleted successfully
+        "default":
+          description: Failed to delete article
+
+  "/articles/path":
+    get:
+      operationId: getArticleByPath
+      summary: Get article by path
+      description: Get an article by path
+      tags:
+        - Article
+      parameters:
+        - name: path
+          required: true
+          in: query
+          description: Get article with specified path.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+
+  "/articles/{id}/read":
+    post:
+      operationId: readArticle
+      summary: Read an article
+      description: Read an article
+      tags:
+        - Article
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the article entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+      responses:
+        "200":
+          description: Updated article entry
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/upload-file":
+    post:
+      operationId: uploadFileForArticle
+      summary: Upload a file
+      description: Create a presigned URL for actual file upload.
+      tags:
+        - Article
+      requestBody:
+        description: Metadata of the new file to upload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileMetadata"
+      responses:
+        "200":
+          description: Created presigned URL
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Presigned URL object
+                required:
+                  - data
+                properties:
+                  data:
+                    type: string
+                    format: uri
+                    description: Generated presigned URL
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -2100,3 +2342,79 @@ components:
         quantity:
           type: number
           format: double
+
+    ArticleMetadata: 
+      type: object
+      required:
+        - path
+        - title
+        - createdBy
+        - draft
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the article entry
+        path:
+          type: string
+          description: Unique path identifier for the article entry
+        title: 
+          type: string
+          description: Title of the article entry 
+        createdBy:
+          type: string
+          description: User ID who created article entry
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the article entry was created
+        lastUpdatedBy:
+          type: string
+          description: User ID who lastly updated article entry
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: Date and time when the article entry was lastly updated
+        lastReadAt:
+          type: string
+          format: date-time
+          description: Date and time when the article entry was lastly read
+        readBy:
+          type: array
+          items:
+            type: string
+          description: User IDs who read article
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags categorization associated with the article
+        coverImage: 
+          type: string
+          format: uri
+          description: URL of the image for the article
+        description:
+          type: string
+          description: Short description - summary of the article content
+        draft:
+          type: boolean
+          description: Marker of draft articles
+
+    Article:
+      allOf:
+        - $ref: '#/components/schemas/ArticleMetadata'
+        - type: object
+          required:
+            - content
+          properties:
+            content:
+              type: string
+              description: Content of the article
+
+    FileMetadata:
+      type: object
+      properties:
+        path:
+          type: string
+        contentType:
+          type: string
