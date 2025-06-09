@@ -645,7 +645,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/severa/users/{severaUserId}/flextime":
+  "/users/{userId}/flextime":
     get:
       operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
@@ -653,12 +653,19 @@ paths:
       tags:
         - FlexTime
       parameters:
-        - name: severaUserId
+        - name: userId
           in: path
           required: true
           description: severaId of the user.
           schema:
             type: string
+        - name: eventDate     
+          in: query
+          required: false
+          description: Date for which to get the balance
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: Flextime entry retrieved successfully
