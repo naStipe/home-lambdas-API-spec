@@ -659,13 +659,6 @@ paths:
           description: severaId of the user.
           schema:
             type: string
-        - name: eventDate     
-          in: query
-          required: false
-          description: Date for which to get the balance
-          schema:
-            type: string
-            format: date
       responses:
         "200":
           description: Flextime entry retrieved successfully
