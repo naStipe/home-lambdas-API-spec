@@ -460,55 +460,55 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-  "/users/{userId}/vacation":
-   put:
-    operationId: updateUserVacation
-    summary: Update user vacation days
-    description: Update vacation days for a specific user by year.
-    tags:
-      - Users
-    parameters:
-      - name: userId
-        in: path
-        required: true
-        description: The Keycloak ID of the user to update vacation for
-        schema:
-          type: string
-          format: uuid
-    requestBody:
-      required: true
-      content:
-        application/json:
+  "/users/{userId}/vacationDays":
+    put:
+      operationId: updateUserVacation
+      summary: Update user vacation days
+      description: Update vacation days for a specific user by year.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak ID of the user to update vacation for
           schema:
-            type: object
-            properties:
-              vacationDays:
-                type: object
-                description: Vacation days by year (e.g., "2024", "2025")
-                additionalProperties:
-                  $ref: "#/components/schemas/YearlyVacationDays"
-                example:
-                  "2024":
-                    total: 22
-                    remaining: 4
-                  "2025":
-                    total: 22
-                    remaining: 4
-            required:
-              - vacationDays
-    responses:
-      "200":
-        description: Successfully updated the vacation days
+            type: string
+            format: uuid
+      requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
-      "default":
-        description: Invalid request was sent to the server.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Error"
+              type: object
+              properties:
+                vacationDays:
+                  type: object
+                  description: Vacation days by year (e.g., "2024", "2025")
+                  additionalProperties:
+                    $ref: "#/components/schemas/YearlyVacationDays"
+                  example:
+                    "2024":
+                      total: 22
+                      remaining: 4
+                    "2025":
+                      total: 22
+                      remaining: 4
+              required:
+                - vacationDays
+      responses:
+        "200":
+          description: Successfully updated the vacation days
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/questionnaires":
     get:
@@ -1434,9 +1434,9 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
-    post: 
+    post:
       operationId: createArticle
       summary: Post a new article
       description: Add new article
@@ -1489,7 +1489,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
     put:
       operationId: updateArticle
@@ -1570,7 +1570,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
 
   "/articles/{id}/read":
     post:
@@ -1693,8 +1693,8 @@ components:
       type: object
       description: Vacation allocation and balance for a specific year
       required:
-       - total
-       - remaining
+        - total
+        - remaining
       properties:
         total:
           type: integer
@@ -2343,7 +2343,7 @@ components:
           type: number
           format: double
 
-    ArticleMetadata: 
+    ArticleMetadata:
       type: object
       required:
         - path
@@ -2358,9 +2358,9 @@ components:
         path:
           type: string
           description: Unique path identifier for the article entry
-        title: 
+        title:
           type: string
-          description: Title of the article entry 
+          description: Title of the article entry
         createdBy:
           type: string
           description: User ID who created article entry
@@ -2389,7 +2389,7 @@ components:
           items:
             type: string
           description: Tags categorization associated with the article
-        coverImage: 
+        coverImage:
           type: string
           format: uri
           description: URL of the image for the article
@@ -2402,7 +2402,7 @@ components:
 
     Article:
       allOf:
-        - $ref: '#/components/schemas/ArticleMetadata'
+        - $ref: "#/components/schemas/ArticleMetadata"
         - type: object
           required:
             - content
