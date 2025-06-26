@@ -1175,7 +1175,7 @@ paths:
                   description: The ID of the Trello card.
                 comment:
                   type: string
-                  description: The comment text.:
+                  description: The comment text.
       responses:
         "200":
           description: Comment created successfully.
