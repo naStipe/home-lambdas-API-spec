@@ -391,6 +391,38 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
+  "/users/flextime":
+    get:
+      operationId: listUsersFlextime
+      summary: Get flextime for multiple users who have opted in
+      description: |
+        Retrieve flextime data for users who have opted in to Severa integration.
+        Filters users by keywordId to get only opted-in users and returns their flextime balances.
+      tags:
+        - FlexTime
+      parameters:
+        - name: keywordId
+          in: query
+          required: true
+          description: Keyword ID to filter users who have opted in to Severa integration
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of users with their flextime data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserFlextime"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   "/users/{id}/attributes/{attributeName}":
     put:
       operationId: updateUserAttribute
@@ -1143,7 +1175,7 @@ paths:
                   description: The ID of the Trello card.
                 comment:
                   type: string
-                  description: The comment text.
+                  description: The comment text.:
       responses:
         "200":
           description: Comment created successfully.
@@ -1642,6 +1674,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1688,6 +1721,48 @@ components:
           description: User's email.
         attributes:
           $ref: "#/components/schemas/Attributes"
+
+    UserFlextime:
+      type: object
+      description: User data combined with their flextime information
+      required:
+        - user
+        - flextime
+      properties:
+        user:
+          type: object
+          description: User information
+          required:
+            - id
+            - firstName
+            - lastName
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: User's unique identifier
+            firstName:
+              type: string
+              description: User's first name
+            lastName:
+              type: string
+              description: User's last name
+            email:
+              type: string
+              format: email
+              description: User's email address
+            attributes:
+              type: object
+              description: User's custom attributes
+              properties:
+                severaUserId:
+                  type: string
+                  description: User's ID in Severa system
+                isActive:
+                  type: boolean
+                  description: Whether the user is currently active
+        flextime:
+          $ref: "#/components/schemas/Flextime"
 
     YearlyVacationDays:
       type: object
