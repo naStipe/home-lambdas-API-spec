@@ -391,22 +391,15 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-  "/users/flextime":
+  "/severa/users/flextime":
     get:
       operationId: listUsersFlextime
       summary: Get flextime for multiple users who have opted in
       description: |
         Retrieve flextime data for users who have opted in to Severa integration.
-        Filters users by keywordId to get only opted-in users and returns their flextime balances.
+        This endpoint is protected and can only be used by Admin users.
       tags:
         - FlexTime
-      parameters:
-        - name: keywordId
-          in: query
-          required: true
-          description: Keyword ID to filter users who have opted in to Severa integration
-          schema:
-            type: string
       responses:
         "200":
           description: List of users with their flextime data
@@ -1673,8 +1666,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
-
 components:
   securitySchemes:
     bearerAuth:
@@ -1751,19 +1742,9 @@ components:
               type: string
               format: email
               description: User's email address
-            attributes:
-              type: object
-              description: User's custom attributes
-              properties:
-                severaUserId:
-                  type: string
-                  description: User's ID in Severa system
-                isActive:
-                  type: boolean
-                  description: Whether the user is currently active
         flextime:
           $ref: "#/components/schemas/Flextime"
-
+          
     YearlyVacationDays:
       type: object
       description: Vacation allocation and balance for a specific year
