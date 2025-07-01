@@ -1738,13 +1738,9 @@ components:
             lastName:
               type: string
               description: User's last name
-            email:
-              type: string
-              format: email
-              description: User's email address
         flextime:
           $ref: "#/components/schemas/Flextime"
-          
+
     YearlyVacationDays:
       type: object
       description: Vacation allocation and balance for a specific year
