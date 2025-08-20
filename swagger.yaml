@@ -218,8 +218,8 @@ paths:
   "/on-call":
     get:
       operationId: listOnCallData
-      summary: Lists on call personnel data from S3
-      description: Lists on call personnel data from S3
+      summary: Lists on call personnel data from DynamoDB
+      description: Lists on call personnel data from DynamoDB
       tags:
         - On call
       parameters:
@@ -1937,21 +1937,26 @@ components:
 
     OnCall:
       type: object
-      description: On-call data from AWS S3
+      description: On-call data from AWS DynamoDB
       required:
-        - Person
+        - Year
         - Week
+        - Username
         - Paid
       properties:
-        Person:
-          type: string
-          description: Name of a person on call
+        Year:
+          type: number
+          description: Year of the on-call entry
         Week:
+          type: number
+          description: On call week number
+        Username:
           type: string
-          description: On call week number.
+          description: Username of the person on call
         Paid:
           type: boolean
-          description: Status of on call week payment.
+          description: Status of on call week payment
+
 
     OnCallPaid:
       type: object
