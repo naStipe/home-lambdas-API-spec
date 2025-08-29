@@ -15,10 +15,11 @@ paths:
       description: |
         Lists users avatars
         
-        **Not currently in use. Might be restored in a future version.**
-      deprecated: true
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Slack avatars
+      x-status: inactive
+      x-deployment: disabled
       responses:
         "200":
           description: A list of images for forecast users
@@ -1180,13 +1181,14 @@ paths:
     post:
       operationId: createComment
       summary: Add a comment to a Trello card
-      description: Creates a new comment on a specified Trello card.
-      
-      
-                  **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+      description: |
+        Creates a new comment on a specified Trello card.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
+      x-deployment: disabled
       requestBody:
         required: true
         content:
@@ -1225,13 +1227,14 @@ paths:
     get:
       operationId: listCards
       summary: Get all Trello cards on a list
-      description: Retrieves a list of cards and their comments from a specified Trello list.
+      description: |
+        Retrieves a list of cards and their comments from a specified Trello list.
                    
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
+      x-deployment: disabled
       responses:
         "200":
           description: List of Trello cards retrieved successfully. 
@@ -1252,13 +1255,14 @@ paths:
     post:
       operationId: createCard
       summary: Create a new Trello card
-      description: Adds a new card to a Trello board.
+      description: |
+        Adds a new card to a Trello board.
                    
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
+      x-deployment: disabled
       requestBody:
         required: true
         content:
@@ -1297,13 +1301,14 @@ paths:
     delete:
       operationId: deleteCard
       summary: Delete a Trello card by ID
-      description: Deletes a Trello card identified by its unique ID.
+      description: |
+        Deletes a Trello card identified by its unique ID.
                    
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
+      x-deployment: disabled
       parameters:
         - name: id
           in: path
@@ -1331,13 +1336,14 @@ paths:
     get:
       operationId: getBoardMembersEmails
       summary: Get Trello board members' emails
-      description: Retrieves the email addresses of Trello board members.
-                   
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+      description: |
+        Retrieves the email addresses of Trello board members.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
+      x-deployment: disabled
       responses:
         "200":
           description: List of board members' emails retrieved successfully.
@@ -1358,13 +1364,14 @@ paths:
     get:
       operationId: getMemos
       summary: List memos
-      description: Retrieves the list of memos.
-                   
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+      description: |
+        Retrieves the list of memos.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
+      x-deployment: disabled
       parameters:
         - name: date
           in: query
@@ -1392,13 +1399,14 @@ paths:
     get:
       operationId: getContentMemo
       summary: Get memo pdf content
-      description: Retrieves pdf file content
-                   
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+      description: |
+        Retrieves pdf file content
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
+      x-deployment: disabled
       parameters:
         - name: fileId
           in: query
@@ -1424,13 +1432,14 @@ paths:
     get:
       operationId: getSummaryMemo
       summary: Generate summary of a memo content
-      description: Generates a summary of a memo content.
-                   
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+      description: |
+        Generates a summary of a memo content.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
+      x-deployment: disabled
       parameters:
         - name: fileId
           in: query
@@ -1460,13 +1469,14 @@ paths:
     get:
       operationId: getTranslatedMemoPdf
       summary: Get translated memo content
-      description: Retrieves the translated content of a memo PDF.
-                   
-                   
-                   **This endpoint is currently not functional and is deprecated.**
-      deprecated: true
+      description: |
+        Retrieves the translated content of a memo PDF.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
+      x-deployment: disabled
       parameters:
         - name: fileId
           in: query
