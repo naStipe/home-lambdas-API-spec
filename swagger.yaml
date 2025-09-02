@@ -19,7 +19,6 @@ paths:
       tags:
         - Slack avatars
       x-status: inactive
-      x-deployment: disabled
       responses:
         "200":
           description: A list of images for forecast users
@@ -1188,7 +1187,6 @@ paths:
       tags:
         - Trello
       x-status: inactive
-      x-deployment: disabled
       requestBody:
         required: true
         content:
@@ -1234,7 +1232,6 @@ paths:
       tags:
         - Trello
       x-status: inactive
-      x-deployment: disabled
       responses:
         "200":
           description: List of Trello cards retrieved successfully. 
@@ -1262,7 +1259,6 @@ paths:
       tags:
         - Trello
       x-status: inactive
-      x-deployment: disabled
       requestBody:
         required: true
         content:
@@ -1308,7 +1304,6 @@ paths:
       tags:
         - Trello
       x-status: inactive
-      x-deployment: disabled
       parameters:
         - name: id
           in: path
@@ -1343,7 +1338,6 @@ paths:
       tags:
         - Trello
       x-status: inactive
-      x-deployment: disabled
       responses:
         "200":
           description: List of board members' emails retrieved successfully.
@@ -1371,7 +1365,6 @@ paths:
       tags:
         - Memo
       x-status: inactive
-      x-deployment: disabled
       parameters:
         - name: date
           in: query
@@ -1406,7 +1399,6 @@ paths:
       tags:
         - Memo
       x-status: inactive
-      x-deployment: disabled
       parameters:
         - name: fileId
           in: query
@@ -1439,7 +1431,6 @@ paths:
       tags:
         - Memo
       x-status: inactive
-      x-deployment: disabled
       parameters:
         - name: fileId
           in: query
@@ -1476,7 +1467,6 @@ paths:
       tags:
         - Memo
       x-status: inactive
-      x-deployment: disabled
       parameters:
         - name: fileId
           in: query
