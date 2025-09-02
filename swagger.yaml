@@ -14,8 +14,11 @@ paths:
       summary: Lists users avatars
       description: |
         Lists users avatars
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Slack avatars
+      x-status: inactive
       responses:
         "200":
           description: A list of images for forecast users
@@ -26,14 +29,17 @@ paths:
                 items:
                   $ref: "#/components/schemas/Users-avatars"
 
-  "/salesLeads":
+  "/pipedrive/salesLeads":
     get:
       operationId: listSalesLeads
       summary: Lists all Leads from Pipedrive
       description: |
         Lists Leads from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       tags:
-        - Leads
+        - Pipedrive
       responses:
         "200":
           description: Lists Leads from Pipedrive
@@ -44,14 +50,17 @@ paths:
                 items:
                   $ref: "#/components/schemas/Lead"
 
-  "/salesDeals/{status}":
+  "/pipedrive/salesDeals/{status}":
     get:
       operationId: listSalesDeals
       summary: Lists all Deals from Pipedrive
       description: |
         Lists open Deals from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       tags:
-        - Deals
+        - Pipedrive
       parameters:
         - name: status
           in: path
@@ -69,14 +78,17 @@ paths:
                 items:
                   $ref: "#/components/schemas/Deal"
 
-  "/getLeadById/{leadId}":
+  "/pipedrive/getLeadById/{leadId}":
     get:
       operationId: getLeadById
       summary: List lead data by id from Pipedrive
       tags:
-        - LeadById
+        - Pipedrive
       description: |
         Get more data of a lead by id from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       parameters:
         - name: leadId
           in: path
@@ -94,14 +106,17 @@ paths:
                 items:
                   $ref: "#/components/schemas/Lead"
 
-  "/getDealById/{dealId}":
+  "/pipedrive/getDealById/{dealId}":
     get:
       operationId: getDealById
       summary: List deal data by id from Pipedrive
       tags:
-        - DealById
+        - Pipedrive
       description: |
         Get more data of a deal by id from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       parameters:
         - name: dealId
           in: path
@@ -119,13 +134,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/Deal"
 
-  "/addDealInterest/{dealId}":
+  "/pipedrive/addDealInterest/{dealId}":
     put:
       summary: Add interest to a Pipedrive deal
       description: |
         Updates string where deal interests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       tags:
-        - Interest
+        - Pipedrive
       parameters:
         - name: dealId
           in: path
@@ -143,13 +161,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/Interest"
 
-  "/addLeadInterest/{leadId}":
+  "/pipedrive/addLeadInterest/{leadId}":
     patch:
       summary: Add interest to a Pipedrive lead
       description: |
         Updates string where lead interests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       tags:
-        - Interest
+        - Pipedrive
       parameters:
         - name: leadId
           in: path
@@ -167,13 +188,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/Interest"
 
-  "/removeDealInterest/{dealId}":
+  "/pipedrive/removeDealInterest/{dealId}":
     put:
       summary: Remove interest to a Pipedrive deal
       description: |
         Updates string where intrests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       tags:
-        - Interest
+        - Pipedrive
       parameters:
         - name: dealId
           in: path
@@ -191,13 +215,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/Interest"
 
-  "/removeLeadInterest/{leadId}":
+  "/pipedrive/removeLeadInterest/{leadId}":
     patch:
       summary: Remove interest to a Pipedrive lead
       description: |
         Updates string where intrests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
       tags:
-        - Interest
+        - Pipedrive
       parameters:
         - name: leadId
           in: path
@@ -399,7 +426,7 @@ paths:
         Retrieve flextime data for users who have opted in to Severa integration.
         This endpoint is protected and can only be used by Admin users.
       tags:
-        - FlexTime
+        - Severa
       responses:
         "200":
           description: List of users with their flextime data
@@ -704,7 +731,7 @@ paths:
       summary: Get all the phases for project
       description: Retrieve all the phases for a particular project with given ID.
       tags:
-        - Phases
+        - Severa
       parameters:
         - name: severaProjectId
           in: path
@@ -734,7 +761,7 @@ paths:
       summary: Get all resource allocations
       description: Retrieve all resource allocations
       tags:
-        - ResourceAllocations
+        - Severa
       parameters:
         - name: severaUserId
           required: false
@@ -764,7 +791,7 @@ paths:
       summary: Get all the work hours
       description: Retrieve all the work hours.
       tags:
-        - WorkHours
+        - Severa
       parameters:
         - name: severaUserId
           required: false
@@ -1153,9 +1180,13 @@ paths:
     post:
       operationId: createComment
       summary: Add a comment to a Trello card
-      description: Creates a new comment on a specified Trello card.
+      description: |
+        Creates a new comment on a specified Trello card.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
       requestBody:
         required: true
         content:
@@ -1194,12 +1225,16 @@ paths:
     get:
       operationId: listCards
       summary: Get all Trello cards on a list
-      description: Retrieves a list of cards and their comments from a specified Trello list.
+      description: |
+        Retrieves a list of cards and their comments from a specified Trello list.
+                   
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
       responses:
         "200":
-          description: List of Trello cards retrieved successfully.
+          description: List of Trello cards retrieved successfully. 
           content:
             application/json:
               schema:
@@ -1217,9 +1252,13 @@ paths:
     post:
       operationId: createCard
       summary: Create a new Trello card
-      description: Adds a new card to a Trello board.
+      description: |
+        Adds a new card to a Trello board.
+                   
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
       requestBody:
         required: true
         content:
@@ -1258,9 +1297,13 @@ paths:
     delete:
       operationId: deleteCard
       summary: Delete a Trello card by ID
-      description: Deletes a Trello card identified by its unique ID.
+      description: |
+        Deletes a Trello card identified by its unique ID.
+                   
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -1288,9 +1331,13 @@ paths:
     get:
       operationId: getBoardMembersEmails
       summary: Get Trello board members' emails
-      description: Retrieves the email addresses of Trello board members.
+      description: |
+        Retrieves the email addresses of Trello board members.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
+      x-status: inactive
       responses:
         "200":
           description: List of board members' emails retrieved successfully.
@@ -1311,9 +1358,13 @@ paths:
     get:
       operationId: getMemos
       summary: List memos
-      description: Retrieves the list of memos.
+      description: |
+        Retrieves the list of memos.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: date
           in: query
@@ -1341,9 +1392,13 @@ paths:
     get:
       operationId: getContentMemo
       summary: Get memo pdf content
-      description: Retrieves pdf file content
+      description: |
+        Retrieves pdf file content
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: fileId
           in: query
@@ -1369,9 +1424,13 @@ paths:
     get:
       operationId: getSummaryMemo
       summary: Generate summary of a memo content
-      description: Generates a summary of a memo content.
+      description: |
+        Generates a summary of a memo content.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: fileId
           in: query
@@ -1401,9 +1460,13 @@ paths:
     get:
       operationId: getTranslatedMemoPdf
       summary: Get translated memo content
-      description: Retrieves the translated content of a memo PDF.
+      description: |
+        Retrieves the translated content of a memo PDF.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: fileId
           in: query
