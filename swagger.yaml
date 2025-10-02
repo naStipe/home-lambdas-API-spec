@@ -246,7 +246,7 @@ paths:
     get:
       operationId: listOnCallData
       summary: Lists on call personnel data from DynamoDB
-      description: Lists on call personnel data from DynamoDB
+      description: Lists on call personnel data from DynamoDB for a given year.
       tags:
         - On call
       parameters:
@@ -265,14 +265,34 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/OnCall"
-        default:
-          description: Invalid or missing year
+        "204":
+          description: No on-call data found for the selected year
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: No content
+        "400":
+          description: Missing or invalid year parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "default":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/update-paid":
     post:
       operationId: updatePaid
       summary: Updates payment status for an on call period
-      description: Updates payment status for an on call period
+      description: Updates the paid status for a specific on-call week and year.
       tags:
         - On call
       requestBody:
@@ -284,7 +304,125 @@ paths:
               $ref: "#/components/schemas/OnCallPaid"
       responses:
         "200":
-          description: Paid status updated
+          description: Paid status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Paid status updated
+        "400":
+          description: Invalid request (invalid year, week, or paid status)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: On-call entry not found for the specified year and week
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "default":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  "/on-call/import-json":
+    post:
+      operationId: importOnCallJson
+      summary: Import on-call data from JSON
+      description: |
+        Imports on-call data (week number and username) into DynamoDB for the specified year.
+        The year must be provided as a query parameter (`year`). Each imported record will include the year, week, and username.
+        Only admin users are allowed to use this endpoint.
+      tags:
+        - On call
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Year for the on-call entries to be created (e.g. 2025)
+      requestBody:
+        description: Array of on-call entries to import
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - Week
+                  - Person
+                properties:
+                  Week:
+                    type: integer
+                    description: Week number for the on-call entry (1-52)
+                  Person:
+                    type: string
+                    description: Username for the on-call entry
+      responses:
+        "200":
+          description: All entries imported successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                    description: Number of imported entries
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entry:
+                          type: object
+                          description: The entry that failed to import
+                        error:
+                          type: string
+                          description: Error message
+        "207":
+          description: Some entries failed to import
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                    description: Number of successfully imported entries
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entry:
+                          type: object
+                          description: The entry that failed to import
+                        error:
+                          type: string
+                          description: Error message
+        "400":
+          description: Invalid request (missing or invalid year, invalid JSON, or body is not an array)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Access denied. Admin privileges required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/software":
     get:
