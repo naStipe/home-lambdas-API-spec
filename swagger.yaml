@@ -1939,6 +1939,19 @@ components:
             lastName:
               type: string
               description: User's last name
+            email:
+              type: string
+              description: User's email address
+            attributes:
+              type: object
+              description: User attributes
+              properties:
+                severaUserId:
+                  type: string
+                  description: User's ID in Severa system
+                isActive:
+                  type: boolean
+                  description: Whether user is active  
         flextime:
           $ref: "#/components/schemas/Flextime"
 
