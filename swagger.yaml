@@ -1925,14 +1925,9 @@ components:
           type: object
           description: User information
           required:
-            - id
             - firstName
             - lastName
           properties:
-            id:
-              type: string
-              format: uuid
-              description: User's unique identifier
             firstName:
               type: string
               description: User's first name
@@ -2017,7 +2012,7 @@ components:
 
     SeveraUser:
       type: object
-      description: The user's information from Severa.
+      description: The useUserFlextimer's information from Severa.
       properties:
         email:
           type: string
