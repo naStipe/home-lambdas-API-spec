@@ -1317,13 +1317,13 @@ paths:
   "/usersSkills":
     get:
       operationId: listUsersSkills
-      summary: List Users with skills
-      description: Lists Users with skills
+      summary: List UsersSkills
+      description: Lists UsersSkills
       tags:
         - UsersSkills
       responses:
         "200":
-          description: List of users with skills
+          description: List of UsersSkills
           content:
             application/json:
               schema:
@@ -1338,12 +1338,12 @@ paths:
                 $ref: "#/components/schemas/Error"
     post:
       operationId: createUsersSkills
-      summary: Post a new User with skills
-      description: Add new User with skills
+      summary: Post a new UsersSkills
+      description: Add new UsersSkills
       tags:
         - UsersSkills
       requestBody:
-        description: New User with skills
+        description: New UsersSkills
         required: true
         content:
           application/json:
@@ -1351,7 +1351,7 @@ paths:
               $ref: "#/components/schemas/UserSkills"
       responses:
         "201":
-          description: created a new User with skills
+          description: created a new UsersSkills
           content:
             application/json:
               schema:
@@ -1366,21 +1366,21 @@ paths:
   "/usersSkills/{id}":
     get:
       operationId: findUsersSkills
-      summary: Finds a User with skills
-      description: Finds a User with skills
+      summary: Finds a UsersSkills
+      description: Finds a UsersSkills
       tags:
         - UsersSkills
       parameters:
         - name: id
           required: true
           in: path
-          description: Id of a User with skills
+          description: Id of a UsersSkills
           schema:
             type: string
             format: uuid
       responses:
         "200":
-          description: Found a User with skills.
+          description: Found a UsersSkills.
           content:
             application/json:
               schema:
@@ -1393,20 +1393,20 @@ paths:
                 $ref: "#/components/schemas/Error"
     put:
       operationId: updateUsersSkills
-      summary: Updates a User with skills
-      description: Update a User with skills
+      summary: Updates a UsersSkills
+      description: Update a UsersSkills
       tags:
         - UsersSkills
       parameters:
         - name: id
           required: true
           in: path
-          description: Id of a User with skills
+          description: Id of a UsersSkills
           schema:
             type: string
             format: uuid
       requestBody:
-        description: Updated user with skills
+        description: Updated UsersSkills
         required: true
         content:
           application/json:
@@ -1414,7 +1414,7 @@ paths:
               $ref: "#/components/schemas/UserSkills"
       responses:
         "200":
-          description: Update a new User with skills
+          description: Update a new UsersSkills
           content:
             application/json:
               schema:
@@ -1427,15 +1427,15 @@ paths:
                 $ref: "#/components/schemas/Error"
     delete:
       operationId: deleteUserSkills
-      summary: Delete a User with skills.
-      description: Deletes a User with skills.
+      summary: Delete a UsersSkills.
+      description: Deletes a UsersSkills.
       tags:
         - UsersSkills
       parameters:
         - name: id
           required: true
           in: path
-          description: Id of a User with skills
+          description: Id of a UsersSkills
           schema:
             type: string
             format: uuid
@@ -2187,11 +2187,11 @@ components:
         id:
           type: string
           format: uuid
-          description: ID of a user with skills attribute from keycloak
+          description: ID of a usersSkills attribute from keycloak
           default: null
         name:
           type: string
-          description: Name of the user with skills attribute
+          description: Name of the usersSkills attribute
         skills:
           type: array
           items:
