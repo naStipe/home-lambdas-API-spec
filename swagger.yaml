@@ -1316,11 +1316,11 @@ paths:
 
   "/usersSkills":
     get:
-      operationId: listUsersWithSkills
+      operationId: listUsersSkills
       summary: List Users with skills
       description: Lists Users with skills
       tags:
-        - UsersWithSkills
+        - UsersSkills
       responses:
         "200":
           description: List of users with skills
@@ -1337,11 +1337,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     post:
-      operationId: createUserWithSkills
+      operationId: createUsersSkills
       summary: Post a new User with skills
       description: Add new User with skills
       tags:
-        - UsersWithSkills
+        - UsersSkills
       requestBody:
         description: New User with skills
         required: true
@@ -1365,11 +1365,11 @@ paths:
 
   "/usersSkills/{id}":
     get:
-      operationId: findUserWithSkills
+      operationId: findUsersSkills
       summary: Finds a User with skills
       description: Finds a User with skills
       tags:
-        - UsersWithSkills
+        - UsersSkills
       parameters:
         - name: id
           required: true
@@ -1392,11 +1392,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     put:
-      operationId: updateUserWithSkills
+      operationId: updateUsersSkills
       summary: Updates a User with skills
       description: Update a User with skills
       tags:
-        - UsersWithSkills
+        - UsersSkills
       parameters:
         - name: id
           required: true
@@ -1426,11 +1426,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     delete:
-      operationId: deleteUserWithSkills
+      operationId: deleteUserSkills
       summary: Delete a User with skills.
       description: Deletes a User with skills.
       tags:
-        - UsersWithSkills
+        - UsersSkills
       parameters:
         - name: id
           required: true
