@@ -1314,6 +1314,141 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/usersSkills":
+    get:
+      operationId: listUsersSkills
+      summary: List UsersSkills
+      description: Lists UsersSkills
+      tags:
+        - UsersSkills
+      responses:
+        "200":
+          description: List of UsersSkills
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createUsersSkills
+      summary: Post a new UsersSkills
+      description: Add new UsersSkills
+      tags:
+        - UsersSkills
+      requestBody:
+        description: New UsersSkills
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSkills"
+      responses:
+        "201":
+          description: created a new UsersSkills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/usersSkills/{id}":
+    get:
+      operationId: findUsersSkills
+      summary: Finds a UsersSkills
+      description: Finds a UsersSkills
+      tags:
+        - UsersSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a UsersSkills
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found a UsersSkills.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateUsersSkills
+      summary: Updates a UsersSkills
+      description: Update a UsersSkills
+      tags:
+        - UsersSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a UsersSkills
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated UsersSkills
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSkills"
+      responses:
+        "200":
+          description: Update a new UsersSkills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteUsersSkills
+      summary: Delete a UsersSkills.
+      description: Deletes a UsersSkills.
+      tags:
+        - UsersSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a UsersSkills
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   "/trello/card-comments":
     post:
       operationId: createComment
@@ -2032,6 +2167,43 @@ components:
           type: integer
         image_original:
           type: string
+
+    Skill:
+      type: object
+      description: A singular skill entity
+      required:
+        - name
+        - years
+        - category
+      properties:
+        name:
+          type: string
+          description: Name of the skill
+        months:
+          type: number
+          description: Number of months of experience
+        category:
+          type: string
+          description: Category of the skill
+
+    UsersSkills:
+      type: object
+      description: A user entity with skills attribute
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User`s Keycloak Id
+          default: null
+        name:
+          type: string
+          description: User`s name
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/Skill"
 
     Lead:
       type: object
