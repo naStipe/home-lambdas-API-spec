@@ -925,7 +925,7 @@ paths:
 
   "/severa/users/{severaUserId}/workWeek":
     get:
-      operationId: getUserWorkWeekLength
+      operationId: getUserContractedWorkWeek
       summary: Get the logged-in user's contracted work week
       description: Returns working week days total, and numbered array of days worked for vacation consumption calculations
       tags:
@@ -939,11 +939,11 @@ paths:
             type: string
       responses:
         "200":
-          description: The user's contracted work week.
+          description: The user's contracted work week as a numbered array and total work days.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/getUserWorkWeekLength"
+                $ref: "#/components/schemas/getUserContractedWorkWeek"
         "400":
           description: Missing Severa User ID or user not opted in.
           content:
@@ -2126,23 +2126,25 @@ components:
         flextime:
           $ref: "#/components/schemas/Flextime"
 
-    getUserWorkWeekLength:
+    getUserContractedWorkWeek:
       type: object
-      description: User work week and days worked in week, calculated from work days
+      description: User work week and days worked in a week.
       required:
         - contractedWeek
         - contractedDaysCount
       properties:
         contractedWeek:
           type: array
-          description: Numeric representation of the user's contracted workdays in a week
+          description: > 
+            Numeric array of the user's contracted workdays in a week 0 - 6 = Mon - Sun
+            Compare with vacation date range to check vacation days consumption
           items:
             type: integer
             minimum: 0
             maximum: 6
         contractedDaysCount:
           type: integer
-          description: Total number of contracted workdays in the week
+          description: Total number of contracted workdays in the week, taken from array length
 
     YearlyVacationDays:
       type: object
