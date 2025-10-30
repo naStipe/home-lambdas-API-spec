@@ -925,7 +925,7 @@ paths:
 
   "/severa/users/{severaUserId}/workWeek":
     get:
-      operationId: getUserContractedWorkWeek
+      operationId: getUserWorkWeekLength
       summary: Get the logged-in user's contracted work week
       description: Returns working week days total, and numbered array of days worked for vacation consumption calculations
       tags:
@@ -943,7 +943,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserContractedWorkWeek"
+                $ref: "#/components/schemas/getUserWorkWeekLength"
         "400":
           description: Missing Severa User ID or user not opted in.
           content:
@@ -2126,9 +2126,12 @@ components:
         flextime:
           $ref: "#/components/schemas/Flextime"
 
-    UserContractedWorkWeek:
+    getUserWorkWeekLength:
       type: object
       description: User work week and days worked in week, calculated from work days
+      required:
+        - contractedWeek
+        - contractedDaysCount
       properties:
         contractedWeek:
           type: array
@@ -2140,9 +2143,6 @@ components:
         contractedDaysCount:
           type: integer
           description: Total number of contracted workdays in the week
-      required:
-        - contractedWeek
-        - contractedDaysCount
 
     YearlyVacationDays:
       type: object
