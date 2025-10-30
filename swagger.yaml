@@ -923,7 +923,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /severa/users/{severaUserId}/workWeek:
+  "/severa/users/{severaUserId}/workWeek":
     get:
       operationId: getUserContractedWorkWeek
       summary: Get the logged-in user's contracted work week
