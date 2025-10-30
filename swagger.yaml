@@ -925,7 +925,7 @@ paths:
 
   "/severa/users/{severaUserId}/workWeek":
     get:
-      operationId: getUserContractedWorkWeek
+      operationId: calculateUserContractedWeek
       summary: Get the logged-in user's contracted work week
       description: Returns working week days total, and numbered array of days worked for vacation consumption calculations
       tags:
@@ -2126,7 +2126,7 @@ components:
         flextime:
           $ref: "#/components/schemas/Flextime"
 
-    getUserContractedWorkWeek:
+    calculateUserContractedWeek:
       type: object
       description: User work week and days worked in a week.
       required:
