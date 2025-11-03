@@ -923,6 +923,47 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/severa/users/{severaUserId}/workWeek":
+    get:
+      operationId: calculateUserContractedWeek
+      summary: Get the logged-in user's contracted work week
+      description: Returns working week days total, and numbered array of days worked for vacation consumption calculations
+      tags:
+        - Severa
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: The unique Severa user ID (must match logged-in user)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The user's contracted work week as a numbered array and total work days.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calculateUserContractedWeek"
+        "400":
+          description: Missing Severa User ID or user not opted in.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Logged-in user is not authorized to view this data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
   "/severa/workHours":
     get:
       operationId: getAllWorkHours
@@ -2084,6 +2125,26 @@ components:
                   description: Whether user is active  
         flextime:
           $ref: "#/components/schemas/Flextime"
+
+    calculateUserContractedWeek:
+      type: object
+      description: User work week and days worked in a week.
+      required:
+        - contractedWeek
+        - contractedDaysCount
+      properties:
+        contractedWeek:
+          type: array
+          description: > 
+            Numeric array of the user's contracted workdays in a week 1 - 7 = Mon - Sun
+            Compare with vacation date range to check vacation days consumption
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        contractedDaysCount:
+          type: integer
+          description: Total number of contracted workdays in the week, taken from array length
 
     YearlyVacationDays:
       type: object
