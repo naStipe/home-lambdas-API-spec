@@ -2136,7 +2136,7 @@ components:
         contractedWeek:
           type: array
           description: > 
-            Numeric array of the user's contracted workdays in a week 0 - 6 = Sun - Sat
+            Numeric array of the user's contracted workdays in a week 1 - 7 = Mon - Sun
             Compare with vacation date range to check vacation days consumption
           items:
             type: integer
