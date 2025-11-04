@@ -583,11 +583,11 @@ paths:
                 
   "/severa/users/{severaUserId}/workdays":
     get:
-      operationId: getWorkdaysForUser
-      summary: Get user's workdays for a specific time period
-      description: >
-        Fetches a user's workdays from Severa for the given date range.
-        Each returned record includes data about expected vs. entered hours, absences, overtime permissions, and time entry completeness.
+      operationId: listWorkdaysForUser
+      summary: Lists user's workdays for a specific time period
+      description: 
+        Lists a user's workdays from Severa for the given date range.
+        Each returned record includes data about the date, user GUID, expected hours, entered hours, and whether the day is a holiday.
       tags:
         - Severa
       parameters:
@@ -619,7 +619,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/getWorkdaysForUser"
+                  $ref: "#/components/schemas/listWorkdaysForUser"
         "401":
           description: Missing or invalid Severa user ID.
           content:
@@ -2667,16 +2667,14 @@ components:
           type: number
           format: double
 
-    getWorkdaysForUser:
+    listWorkdaysForUser:
       type: object
       required:
       - date
       - userGuid
       - expectedHours
       - enteredHours
-      - absenceHours
-      - incompleteTimingMinutes
-      - enteredTimeEntries
+      - isHoliday
       description: Workday details for a specific user
       properties:
         date:
@@ -2689,14 +2687,6 @@ components:
           format: uuid
           description: Unique identifier of the user
           example: "0c6b0b15-15eb-a77b-ad09-61527abc7be6"
-        isCompleted:
-          type: boolean
-          description: Indicates if the workday is completed
-          example: false
-        isOvertimeAllowed:
-          type: boolean
-          description: Indicates if overtime is allowed for this day
-          example: false
         expectedHours:
           type: number
           format: double
@@ -2711,26 +2701,12 @@ components:
           type: boolean
           description: Indicates if the day is a holiday
           example: false
-        flextimeLimitPerDay:
-          type: number
-          format: double
+        holidayName:
+          type: string
           nullable: true
-          description: Maximum allowed flextime hours for the day
-          example: null
-        absenceHours:
-          type: number
-          format: double
-          description: Hours marked as absence
-          example: 0.0
-        incompleteTimingMinutes:
-          type: integer
-          description: Minutes of incomplete timing for the day
-          example: 0
-        enteredTimeEntries:
-          type: number
-          format: double
-          description: Total hours entered in time entries for the day
-          example: 0.0
+          description: Name of the holiday if the date is marked as a holiday; otherwise null
+          example: "Independence Day"
+
 
 
     ArticleMetadata:
