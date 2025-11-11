@@ -580,6 +580,64 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+                
+  "/severa/users/{severaUserId}/workdays":
+    get:
+      operationId: listWorkdaysForUser
+      summary: Lists user's workdays for a specific time period
+      description: 
+        Lists a user's workdays from Severa for the given date range.
+        Each returned record includes data about the date, user GUID, expected hours, entered hours, and whether the day is a holiday.
+      tags:
+        - Severa
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: The unique Severa user ID (must match logged-in user)
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: false
+          description: Optional start date for the time period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          description: Optional end date for the time period.
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Successful response with user's workdays
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/listWorkdaysForUser"
+        "401":
+          description: Missing or invalid Severa user ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Authenticated user attempted to access another user's data.
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/users/{id}/attributes/{attributeName}":
     put:
@@ -2841,6 +2899,48 @@ components:
         quantity:
           type: number
           format: double
+
+    listWorkdaysForUser:
+      type: object
+      required:
+      - date
+      - userGuid
+      - expectedHours
+      - enteredHours
+      - isHoliday
+      description: Workday details for a specific user
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date of the workday
+          example: "2025-10-03"
+        userGuid:
+          type: string
+          format: uuid
+          description: Unique identifier of the user
+          example: "0c6b0b15-15eb-a77b-ad09-61527abc7be6"
+        expectedHours:
+          type: number
+          format: double
+          description: Expected work hours for the day
+          example: 7.25
+        enteredHours:
+          type: number
+          format: double
+          description: Actual hours entered by the user
+          example: 7.25
+        isHoliday:
+          type: boolean
+          description: Indicates if the day is a holiday
+          example: false
+        holidayName:
+          type: string
+          nullable: true
+          description: Name of the holiday if the date is marked as a holiday; otherwise null
+          example: "Independence Day"
+
+
 
     ArticleMetadata:
       type: object
