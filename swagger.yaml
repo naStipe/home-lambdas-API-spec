@@ -712,16 +712,17 @@ paths:
     delete:
       operationId: removeSeveraOptIn
       summary: Remove Severa opt-in for user
+      description: Remove the user's Severa opt-in status.
       tags:
         - Users
       parameters:
         - name: userId
           in: path
           required: true
+          description: The Keycloak ID of the user to remove Severa opt-in for.
           schema:
             type: string
             format: uuid
-          description: The Keycloak ID of the user to remove Severa opt-in for
       security:
         - bearerAuth: []
       responses:
