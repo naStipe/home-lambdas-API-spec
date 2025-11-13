@@ -2487,6 +2487,11 @@ components:
         Username:
           type: string
           description: Username of the person on call
+        Email:
+          type: string
+          format: email
+          nullable: true 
+          description: "Email address of the on-call user (may be null for past entries)"
         Paid:
           type: boolean
           description: Status of on call week payment
