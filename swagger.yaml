@@ -1764,13 +1764,9 @@ paths:
     get:
       operationId: getMemos
       summary: List memos
-      description: |
-        Retrieves the list of memos.
-        
-        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      description: Retrieves the list of memos.
       tags:
         - Memo
-      x-status: inactive
       parameters:
         - name: date
           in: query
@@ -1798,13 +1794,9 @@ paths:
     get:
       operationId: getContentMemo
       summary: Get memo pdf content
-      description: |
-        Retrieves pdf file content
-        
-        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      description: Retrieves pdf file content
       tags:
         - Memo
-      x-status: inactive
       parameters:
         - name: fileId
           in: query
@@ -1862,17 +1854,57 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/google-drive/memo-translate":
+  "/google-drive/memo-translate/{id}/{language}":
     get:
       operationId: getTranslatedMemoPdf
       summary: Get translated memo content
-      description: |
-        Retrieves the translated content of a memo PDF.
-        
-        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      description: Retrieves the translated content of a memo PDF.
       tags:
         - Memo
-      x-status: inactive
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: language
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Memo retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemoRecord"
+      "400":
+        description: Missing required path parameters
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"
+      "404":
+        description: Memo not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"
+      "500":
+        description: Internal server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-translate":
+    post:
+      operationId: createTranslatedMemoPdf
+      summary: Create translated memo content
+      description: Creates/stores the translated content of a memo PDF to DynamoDB.
+      tags:
+        - Memo
       parameters:
         - name: fileId
           in: query
@@ -1881,12 +1913,16 @@ paths:
             type: string
       responses:
         "200":
-          description: Translated memo content retrieved successfully.
+          description: Translated memo content created successfully.
           content:
             application/pdf:
               schema:
-                type: string
-                format: binary
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: string
         "default":
           description: File not found.
           content:
@@ -2810,7 +2846,22 @@ components:
           type: string
           format: byte
           description: Base64-encoded PDF content
-
+    
+    MemoRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        fileId:
+          type: string 
+        fileName:
+          type: string
+        language:
+          type: string
+        translatedBase64:
+          type: string
+          format: binary   
+        
     Phase:
       type: object
       properties:
