@@ -2667,6 +2667,10 @@ components:
         - questionText
         - answerOptions
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the question
         questionText:
           type: string
           description: The question text
@@ -2682,6 +2686,10 @@ components:
         - label
         - isCorrect
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the answer option
         label:
           type: string
           description: Display text for the answer option
