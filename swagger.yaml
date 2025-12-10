@@ -639,50 +639,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/users/{id}/attributes/{attributeName}":
-    put:
-      operationId: updateUserAttribute
-      summary: Update user attributes
-      description: Updates a user's attributes based on the provided data.
-      tags:
-        - Users
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The keycloak id of the user whose attributes are to be updated.
-          schema:
-            type: string
-            format: uuid
-        - name: attributeName
-          in: path
-          required: true
-          description: The name of the attribute to be updated. Allowed attributes `isSeveraOptIn`.
-          schema:
-            type: string
-      requestBody:
-        description: Attribute update payload.
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - value
-              properties:
-                value:
-                  type: string
-                  description: Value for the attribute being updated.
-      responses:
-        "200":
-          description: User attributes updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UpdateUserAttribute"
-        "default":
-          description: Invalid request was sent to the server.
-
   "/users/{userId}":
     get:
       operationId: findUser
@@ -712,7 +668,7 @@ paths:
     put:
       operationId: addSeveraOptIn
       summary: Add Severa opt-in for user
-      description: Add the user's Severa opt-in status.
+      description: Add the user's Severa opt-in status to both severa and keycloak.
       tags:
         - Users
       parameters:
