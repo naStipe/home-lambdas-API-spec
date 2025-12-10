@@ -1873,30 +1873,30 @@ paths:
           schema:
             type: string
       responses:
-      "200":
-        description: Memo retrieved successfully
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MemoRecord"
-      "400":
-        description: Missing required path parameters
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Error"
-      "404":
-        description: Memo not found
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Error"
-      "500":
-        description: Internal server error
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Error"
+        "200":
+          description: Memo retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoRecord"
+        "400":
+          description: Missing required path parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Memo not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   "/google-drive/memo-translate":
     post:
