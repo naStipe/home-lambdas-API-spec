@@ -8,7 +8,7 @@ security:
   - bearerAuth: []
 
 paths:
-  "/slack-avatar/{email}":
+  "/slack-avatar":
     get:
       operationId: getSlackUserAvatarByEmail
       summary: Get user's slack avatar by email
@@ -17,18 +17,21 @@ paths:
         - Slack
       parameters:
         - name: email
-          in: path
+          in: query
           required: true
           schema:
             type: string
       responses:
         "200":
           description: The URL of the user's Slack avatar 
-          content:
-            application/json;charset=utf-8:
-              schema:
-                type: string
-                format: uri
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image_original:
+                  type: string
+                  format: uri
 
   "/pipedrive/salesLeads":
     get:
