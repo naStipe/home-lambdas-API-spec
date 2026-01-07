@@ -10,24 +10,28 @@ security:
 paths:
   "/slack-avatar":
     get:
-      operationId: slackAvatar
-      summary: Lists users avatars
-      description: |
-        Lists users avatars
-        
-        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      operationId: getSlackUserAvatarByEmail
+      summary: Get user's slack avatar by email
+      description: Fetches user's avatar from Slack by email
       tags:
-        - Slack avatars
-      x-status: inactive
+        - Slack
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: A list of images for forecast users
-          content:
-            application/json;charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Users-avatars"
+          description: The URL of the user's Slack avatar 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image_original:
+                  type: string
+                  format: uri
 
   "/pipedrive/salesLeads":
     get:
@@ -2335,15 +2339,6 @@ components:
         severaKeyword:
           type: string
           description: The keyword returned from Severa API that is associated with the user.
-
-    Users-avatars:
-      type: object
-      description: Users avatars data
-      properties:
-        personId:
-          type: integer
-        image_original:
-          type: string
 
     Skill:
       type: object
