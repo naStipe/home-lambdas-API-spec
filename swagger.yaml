@@ -24,14 +24,14 @@ paths:
       responses:
         "200":
           description: The URL of the user's Slack avatar 
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                image_original:
-                  type: string
-                  format: uri
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  image_original:
+                    type: string
+                    format: uri
 
   "/pipedrive/salesLeads":
     get:
