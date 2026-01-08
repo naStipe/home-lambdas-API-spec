@@ -668,7 +668,7 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-    "/users/{id}/attributes/{attributeName}":
+  "/users/{id}/attributes/{attributeName}":
   put:
     operationId: updateUserAttribute
     summary: Update user attribute
