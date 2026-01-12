@@ -712,44 +712,6 @@ paths:
         "default":
           description: Invalid request was sent to the server.
 
-      - Users
-    parameters:
-      - name: id
-        in: path
-        required: true
-        description: The Keycloak id of the user whose attributes are to be updated.
-        schema:
-          type: string
-          format: uuid
-      - name: attributeName
-        in: path
-        required: true
-        description: The name of the attribute to be updated. Allowed attributes 'isSeveraOptin'.
-        schema:
-          type: string
-    requestBody:
-      description: Email of the user whose attribute is being updated.
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - email
-            properties:
-              email:
-                type: string
-                description: Email of the user whose attribute is being updated.
-    responses:
-      "200":
-        description: User attribute updated successfully.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateUserAttribute"
-      "default":
-        description: Invalid request was sent to the server.
-
   "/users/{userId}/severa-opt-in":
     put:
       operationId: addSeveraOptIn
