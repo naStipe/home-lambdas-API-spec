@@ -23,24 +23,11 @@ paths:
             type: string
       responses:
         "200":
-          description: The URL of the user's Slack avatar 
+          description: Slack avatar response
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - image_original
-                properties:
-                  image_original:
-                    type: string
-                    format: uri
-                    nullable: true
-                  reason:
-                    type: string
-                    enum:
-                      - no_avatar
-                      - email_mismatch
-                      - unknown_error
+                $ref: '#/components/schemas/SlackAvatarResponse'
 
   "/pipedrive/salesLeads":
     get:
@@ -3151,3 +3138,19 @@ components:
           type: string
         contentType:
           type: string
+    
+    SlackAvatarResponse:
+      type: object
+      required:
+        - image_original
+      properties:
+        image_original:
+          type: string
+          format: uri
+          nullable: true
+        reason:
+          type: string
+          enum:
+            - no_avatar
+            - email_mismatch
+            - unknown_error
