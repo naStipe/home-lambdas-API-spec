@@ -3142,16 +3142,19 @@ components:
     SlackAvatarResponse:
       type: object
       description: Response containing Slack avatar information. Returns image_original when available, or reason when the avatar cannot be retrieved.
-      required:
-        - image_original
       properties:
         image_original:
           type: string
           format: uri
-          nullable: true
         reason:
           type: string
           enum:
             - no_avatar
             - email_mismatch
             - unknown_error
+          description: >
+            Indicates why an avatar is unavailable. This field is populated 
+            only when `image_original` is null or absent.  
+            - `no_avatar`: Slack user exists but has no avatar set.  
+            - `email_mismatch`: No Slack user matches the provided email.  
+            - `unknown_error`: An unexpected error occurred while fetching the avatar.
