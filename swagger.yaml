@@ -32,6 +32,7 @@ paths:
                   image_original:
                     type: string
                     format: uri
+                    nullable: true
 
   "/pipedrive/salesLeads":
     get:
