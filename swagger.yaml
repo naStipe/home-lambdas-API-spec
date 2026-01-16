@@ -23,7 +23,7 @@ paths:
             type: string
       responses:
         "200":
-          description: Slack avatar response
+          description: Returns the user's Slack avatar URL or error information if unavailable
           content:
             application/json:
               schema:
@@ -3141,6 +3141,7 @@ components:
     
     SlackAvatarResponse:
       type: object
+      description: Response containing Slack avatar information. Returns image_original when available, or reason when the avatar cannot be retrieved.
       required:
         - image_original
       properties:
