@@ -28,11 +28,19 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - image_original
                 properties:
                   image_original:
                     type: string
                     format: uri
                     nullable: true
+                  reason:
+                    type: string
+                    enum:
+                      - no_avatar
+                      - email_mismatch
+                      - unknown_error
 
   "/pipedrive/salesLeads":
     get:
