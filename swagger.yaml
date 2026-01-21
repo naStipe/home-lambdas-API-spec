@@ -23,15 +23,11 @@ paths:
             type: string
       responses:
         "200":
-          description: The URL of the user's Slack avatar 
+          description: Returns the user's Slack avatar URL or error information if unavailable
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  image_original:
-                    type: string
-                    format: uri
+                $ref: '#/components/schemas/SlackAvatarResponse'
 
   "/pipedrive/salesLeads":
     get:
@@ -3142,3 +3138,21 @@ components:
           type: string
         contentType:
           type: string
+    
+    SlackAvatarResponse:
+      type: object
+      description: Response containing Slack avatar information. Returns imageOriginal when available, or reason when the avatar cannot be retrieved.
+      properties:
+        imageOriginal:
+          type: string
+          format: uri
+        reason:
+          type: string
+          enum:
+            - no_avatar
+            - email_mismatch
+          description: >
+            Indicates why an avatar is unavailable. This field is populated 
+            only when `imageOriginal` is null or absent.  
+            - `no_avatar`: Slack user exists but has no avatar set.  
+            - `email_mismatch`: No Slack user matches the provided email.  
