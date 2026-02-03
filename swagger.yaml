@@ -3168,29 +3168,6 @@ components:
           type: string
         contentType:
           type: string
-
-    MediaFile:
-      type: object
-      description: Represents a media file stored in S3
-      properties:
-        key:
-          type: string
-          description: The S3 key/path of the media file
-        url:
-          type: string
-          format: uri
-          description: The accessible URL of the media file
-        size:
-          type: integer
-          format: int64
-          description: Size of the file in bytes
-        lastModified:
-          type: string
-          format: date-time
-          description: Date and time when the file was last modified
-        contentType:
-          type: string
-          description: MIME type of the file
     
     SlackAvatarResponse:
       type: object
