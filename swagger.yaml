@@ -2203,6 +2203,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  "/articles/list-media":
+    get:
+      operationId: listMediaFiles
+      summary: List media files
+      description: Retrieves a list of media files from S3 for wiki documentation.
+      tags:
+        - Article
+      parameters:
+        - name: prefix
+          in: query
+          required: false
+          description: Optional prefix to filter media files by path.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of media files retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FileMetadata"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
     bearerAuth:
