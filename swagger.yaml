@@ -2172,11 +2172,10 @@ paths:
     post:
       operationId: uploadFileForArticle
       summary: Upload a file
-      description: Create a presigned URL for actual file upload.
+      description: Returns a presigned URL. Images are allowed for all authenticated users; PDFs require admin role.
       tags:
         - Article
       requestBody:
-        description: Metadata of the new file to upload
         required: true
         content:
           application/json:
@@ -2184,19 +2183,29 @@ paths:
               $ref: "#/components/schemas/FileMetadata"
       responses:
         "200":
-          description: Created presigned URL
+          description: Presigned URL
           content:
             application/json:
               schema:
                 type: object
-                description: Presigned URL object
                 required:
                   - data
                 properties:
                   data:
                     type: string
                     format: uri
-                    description: Generated presigned URL
+        "400":
+          description: Unsupported content type.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: PDF uploads require admin privileges.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -2227,6 +2236,72 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/FileMetadata"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/preview-document":
+    post:
+      operationId: previewDocumentImport
+      summary: Preview document import
+      description: Parses a PDF from S3 and returns the proposed article split without writing to the database.
+      tags:
+        - Article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentImportRequest"
+      responses:
+        "200":
+          description: Proposed article split for the uploaded PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentImportPreview"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/import-document":
+    post:
+      operationId: importDocument
+      summary: Import a PDF document as wiki articles
+      description: Parses a PDF from S3 and creates wiki articles based on the chosen import mode. Requires admin role.
+      tags:
+        - Article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentImportRequest"
+      responses:
+        "200":
+          description: Import result summary with created articles.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentImportResult"
+        "409":
+          description: One or more articles already exist at the target path.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: No sections could be detected in the PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -3149,6 +3224,15 @@ components:
         draft:
           type: boolean
           description: Marker of draft articles
+        importGroup:
+          type: string
+          description: Groups articles that were imported together from the same source document (e.g. security-policy)
+        order:
+          type: integer
+          description: Position of the article within its import group for ordered navigation
+        parentPath:
+          type: string
+          description: Path of the parent article, enabling hierarchy display in the UI
 
     Article:
       allOf:
@@ -3163,15 +3247,98 @@ components:
 
     FileMetadata:
       type: object
+      required:
+        - path
+        - contentType
       properties:
         path:
           type: string
+          description: S3 object key for the file
         contentType:
           type: string
+          description: "MIME type of the file (e.g. image/png, application/pdf)"
+
+    DocumentImportRequest:
+      type: object
+      required:
+        - s3Key
+        - documentTitle
+      properties:
+        s3Key:
+          type: string
+          description: S3 object key of the uploaded PDF (returned from upload-file)
+        documentTitle:
+          type: string
+          description: Human-readable title for the document, also used as the base URL path
+        importMode:
+          type: string
+          enum:
+            - single
+            - by-toc
+            - by-toc-linked
+          default: by-toc
+          description: "single = one article; by-toc = split by headings; by-toc-linked = split by headings with cross-links"
+        overwriteExisting:
+          type: boolean
+          default: false
+          description: When true, articles at conflicting paths are updated rather than skipped
+
+    ImportedArticlePreview:
+      type: object
+      properties:
+        title:
+          type: string
+        path:
+          type: string
+        order:
+          type: integer
+        level:
+          type: integer
+          enum: [1, 2, 3]
+        parentPath:
+          type: string
+          nullable: true
+        wordCount:
+          type: integer
+        contentPreview:
+          type: string
+
+    DocumentImportPreview:
+      type: object
+      properties:
+        basePath:
+          type: string
+        usedToc:
+          type: boolean
+        tocTitles:
+          type: array
+          items:
+            type: string
+        importMode:
+          type: string
+        articles:
+          type: array
+          items:
+            $ref: "#/components/schemas/ImportedArticlePreview"
+
+    DocumentImportResult:
+      type: object
+      properties:
+        basePath:
+          type: string
+        importMode:
+          type: string
+        created:
+          type: integer
+        skipped:
+          type: integer
+        articles:
+          type: array
+          items:
+            $ref: "#/components/schemas/ArticleMetadata"
     
     SlackAvatarResponse:
       type: object
-      description: Response containing Slack avatar information. Returns imageOriginal when available, or reason when the avatar cannot be retrieved.
       properties:
         imageOriginal:
           type: string
@@ -3181,8 +3348,4 @@ components:
           enum:
             - no_avatar
             - email_mismatch
-          description: >
-            Indicates why an avatar is unavailable. This field is populated 
-            only when `imageOriginal` is null or absent.  
-            - `no_avatar`: Slack user exists but has no avatar set.  
-            - `email_mismatch`: No Slack user matches the provided email.  
+          description: "Reason why avatar is unavailable: no_avatar = user has no avatar set; email_mismatch = no Slack user found for the email"
