@@ -2243,33 +2243,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/articles/preview-document":
-    post:
-      operationId: previewDocumentImport
-      summary: Preview document import
-      description: Parses a PDF from S3 and returns the proposed article split without writing to the database.
-      tags:
-        - Article
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/DocumentImportRequest"
-      responses:
-        "200":
-          description: Proposed article split for the uploaded PDF.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DocumentImportPreview"
-        "default":
-          description: Invalid request was sent to the server.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
   "/articles/import-document":
     post:
       operationId: importDocument
@@ -2290,6 +2263,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DocumentImportResult"
+        "403":
+          description: Access denied. Admin privileges required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: One or more articles already exist at the target path.
           content:
@@ -3261,12 +3240,12 @@ components:
     DocumentImportRequest:
       type: object
       required:
-        - s3Key
+        - Path
         - documentTitle
       properties:
-        s3Key:
+        Path:
           type: string
-          description: S3 object key of the uploaded PDF (returned from upload-file)
+          description: Same value as FileMetadata.path that was sent in the /articles/upload-file request body.
         documentTitle:
           type: string
           description: Human-readable title for the document, also used as the base URL path
@@ -3282,44 +3261,6 @@ components:
           type: boolean
           default: false
           description: When true, articles at conflicting paths are updated rather than skipped
-
-    ImportedArticlePreview:
-      type: object
-      properties:
-        title:
-          type: string
-        path:
-          type: string
-        order:
-          type: integer
-        level:
-          type: integer
-          enum: [1, 2, 3]
-        parentPath:
-          type: string
-          nullable: true
-        wordCount:
-          type: integer
-        contentPreview:
-          type: string
-
-    DocumentImportPreview:
-      type: object
-      properties:
-        basePath:
-          type: string
-        usedToc:
-          type: boolean
-        tocTitles:
-          type: array
-          items:
-            type: string
-        importMode:
-          type: string
-        articles:
-          type: array
-          items:
-            $ref: "#/components/schemas/ImportedArticlePreview"
 
     DocumentImportResult:
       type: object
