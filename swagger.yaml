@@ -12,9 +12,13 @@ paths:
     get:
       operationId: getSlackUserAvatarByEmail
       summary: Get user's slack avatar by email
-      description: Fetches user's avatar from Slack by email
+      description: |
+        Fetches user's avatar from Slack by email
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Slack
+      x-status: inactive
       parameters:
         - name: email
           in: query
@@ -37,9 +41,12 @@ paths:
         Lists Leads from Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       tags:
         - Pipedrive
+      x-status: inactive
       responses:
         "200":
           description: Lists Leads from Pipedrive
@@ -58,9 +65,12 @@ paths:
         Lists open Deals from Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       tags:
         - Pipedrive
+      x-status: inactive
       parameters:
         - name: status
           in: path
@@ -84,10 +94,13 @@ paths:
       summary: List lead data by id from Pipedrive
       tags:
         - Pipedrive
+      x-status: inactive
       description: |
         Get more data of a lead by id from Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       parameters:
         - name: leadId
@@ -112,10 +125,13 @@ paths:
       summary: List deal data by id from Pipedrive
       tags:
         - Pipedrive
+      x-status: inactive
       description: |
         Get more data of a deal by id from Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       parameters:
         - name: dealId
@@ -141,9 +157,12 @@ paths:
         Updates string where deal interests are stored in Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       tags:
         - Pipedrive
+      x-status: inactive
       parameters:
         - name: dealId
           in: path
@@ -168,9 +187,12 @@ paths:
         Updates string where lead interests are stored in Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       tags:
         - Pipedrive
+      x-status: inactive
       parameters:
         - name: leadId
           in: path
@@ -195,9 +217,12 @@ paths:
         Updates string where intrests are stored in Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       tags:
         - Pipedrive
+      x-status: inactive
       parameters:
         - name: dealId
           in: path
@@ -222,9 +247,12 @@ paths:
         Updates string where intrests are stored in Pipedrive
          
         **This endpoint is deprecated and will be removed in a future version.**
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       deprecated: true
       tags:
         - Pipedrive
+      x-status: inactive
       parameters:
         - name: leadId
           in: path
@@ -246,9 +274,13 @@ paths:
     get:
       operationId: listOnCallData
       summary: Lists on call personnel data from DynamoDB
-      description: Lists on call personnel data from DynamoDB for a given year.
+      description: |
+        Lists on call personnel data from DynamoDB for a given year.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - On call
+      x-status: inactive
       parameters:
         - name: year
           in: query
@@ -292,9 +324,13 @@ paths:
     post:
       operationId: updatePaid
       summary: Updates payment status for an on call period
-      description: Updates the paid status for a specific on-call week and year.
+      description: |
+        Updates the paid status for a specific on-call week and year.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - On call
+      x-status: inactive
       requestBody:
         description: On-call week status to update
         required: true
@@ -340,8 +376,11 @@ paths:
         Imports on-call data (week number and username) into DynamoDB for the specified year.
         The year must be provided as a query parameter (`year`). Each imported record will include the year, week, and username.
         Only admin users are allowed to use this endpoint.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - On call
+      x-status: inactive
       parameters:
         - name: year
           in: query
@@ -428,9 +467,13 @@ paths:
     get:
       operationId: listSoftware
       summary: Get all software entries
-      description: Retrieve a list of all software entries in the registry.
+      description: |
+        Retrieve a list of all software entries in the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Software
+      x-status: inactive
       responses:
         "200":
           description: A list of software entries
@@ -444,9 +487,13 @@ paths:
     post:
       operationId: createSoftware
       summary: Register new software
-      description: Register a new software entry in the registry.
+      description: |
+        Register a new software entry in the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Software
+      x-status: inactive
       requestBody:
         description: Software entry to register
         required: true
@@ -468,9 +515,13 @@ paths:
     get:
       operationId: getSoftwareById
       summary: Get software by ID
-      description: Retrieve a software entry by its unique identifier.
+      description: |
+        Retrieve a software entry by its unique identifier.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Software
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -491,9 +542,13 @@ paths:
     put:
       operationId: updateSoftwareById
       summary: Update software entry
-      description: Update an existing software entry in the registry.
+      description: |
+        Update an existing software entry in the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Software
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -521,9 +576,13 @@ paths:
     delete:
       operationId: deleteSoftwareById
       summary: Delete software entry
-      description: Delete a software entry from the registry.
+      description: |
+        Delete a software entry from the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Software
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -541,9 +600,13 @@ paths:
     get:
       operationId: listUsers
       summary: Get list of keycloak users.
-      description: Get list of keycloak users.
+      description: |
+        Get list of keycloak users.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       responses:
         "200":
           description: Get list of keycloak users
@@ -563,8 +626,11 @@ paths:
       description: |
         Retrieve flextime data for users who have opted in to Severa integration.
         This endpoint is protected and can only be used by Admin users.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Severa
+      x-status: inactive
       responses:
         "200":
           description: List of users with their flextime data
@@ -590,6 +656,7 @@ paths:
         Each returned record includes data about the date, user GUID, expected hours, entered hours, and whether the day is a holiday.
       tags:
         - Severa
+      x-status: inactive
       parameters:
         - name: severaUserId
           in: path
@@ -643,9 +710,13 @@ paths:
     get:
       operationId: findUser
       summary: Find user by keycloak id
-      description: Finds user by keycloak id in keycloak.
+      description: |
+        Finds user by keycloak id in keycloak.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       parameters:
         - name: userId
           in: path
@@ -668,9 +739,13 @@ paths:
     put:
       operationId: updateUserAttribute
       summary: Update user attribute
-      description: Updates a user's attribute based on provided data.
+      description: |
+        Updates a user's attribute based on provided data.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -712,9 +787,13 @@ paths:
     put:
       operationId: addSeveraOptIn
       summary: Add Severa opt-in for user
-      description: Add the user's Severa opt-in status to both severa and keycloak.
+      description: |
+        Add the user's Severa opt-in status to both severa and keycloak.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       parameters:
         - name: userId
           in: path
@@ -744,9 +823,13 @@ paths:
     delete:
       operationId: removeSeveraOptIn
       summary: Remove Severa opt-in for user
-      description: Remove the user's Severa opt-in status.
+      description: |
+        Remove the user's Severa opt-in status.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       parameters:
         - name: userId
           in: path
@@ -778,9 +861,13 @@ paths:
     put:
       operationId: updateUserVacation
       summary: Update user vacation days
-      description: Update vacation days for a specific user by year.
+      description: |
+        Update vacation days for a specific user by year.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       parameters:
         - name: userId
           in: path
@@ -828,9 +915,13 @@ paths:
     get:
       operationId: listQuestionnaires
       summary: List questionnaires
-      description: Retrieve a list of all questionnaires in the registry.
+      description: |
+        Retrieve a list of all questionnaires in the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Questionnaires
+      x-status: inactive
       responses:
         "200":
           description: A list of questionnaires
@@ -850,9 +941,13 @@ paths:
     post:
       operationId: createQuestionnaires
       summary: Register new questionnaire
-      description: Register a new questionnaire in the registry.
+      description: |
+        Register a new questionnaire in the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Questionnaires
+      x-status: inactive
       requestBody:
         description: Questionnaire entry to register
         required: true
@@ -878,9 +973,13 @@ paths:
     get:
       operationId: getQuestionnairesById
       summary: Get questionnaire by ID
-      description: Retrieve a questionnaire entry by its unique identifier.
+      description: |
+        Retrieve a questionnaire entry by its unique identifier.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Questionnaires
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -905,9 +1004,13 @@ paths:
     put:
       operationId: updateQuestionnaires
       summary: Update questionnaire entry
-      description: Update an existing questionnaire entry in the registry.
+      description: |
+        Update an existing questionnaire entry in the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Questionnaires
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -939,9 +1042,13 @@ paths:
     delete:
       operationId: deleteQuestionnaires
       summary: Delete questionnaire entry
-      description: Delete a questionnaire entry from the registry.
+      description: |
+        Delete a questionnaire entry from the registry.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Questionnaires
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -963,9 +1070,13 @@ paths:
     get:
       operationId: getFlextimeBySeveraUserId
       summary: Get the flextime balance for a user.
-      description: Retrieve the flextime balances for a user based on their SeveraUserId.
+      description: |
+        Retrieve the flextime balances for a user based on their SeveraUserId.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - FlexTime
+      x-status: inactive
       parameters:
         - name: userId
           in: path
@@ -991,9 +1102,13 @@ paths:
     get:
       operationId: getPhasesBySeveraProjectId
       summary: Get all the phases for project
-      description: Retrieve all the phases for a particular project with given ID.
+      description: |
+        Retrieve all the phases for a particular project with given ID.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Severa
+      x-status: inactive
       parameters:
         - name: severaProjectId
           in: path
@@ -1021,9 +1136,13 @@ paths:
     get:
       operationId: getAllResourceAllocations
       summary: Get all resource allocations
-      description: Retrieve all resource allocations
+      description: |
+        Retrieve all resource allocations
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Severa
+      x-status: inactive
       parameters:
         - name: severaUserId
           required: false
@@ -1051,9 +1170,13 @@ paths:
     get:
       operationId: calculateUserContractedWeek
       summary: Get the logged-in user's contracted work week
-      description: Returns working week days total, and numbered array of days worked for vacation consumption calculations
+      description: |
+        Returns working week days total, and numbered array of days worked for vacation consumption calculations
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Severa
+      x-status: inactive
       parameters:
         - name: severaUserId
           in: path
@@ -1092,9 +1215,13 @@ paths:
     get:
       operationId: getAllWorkHours
       summary: Get all the work hours
-      description: Retrieve all the work hours.
+      description: |
+        Retrieve all the work hours.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Severa
+      x-status: inactive
       parameters:
         - name: severaUserId
           required: false
@@ -1148,9 +1275,13 @@ paths:
     get:
       operationId: listVacationRequests
       summary: List vacation requests
-      description: Lists persisted vacation requests
+      description: |
+        Lists persisted vacation requests
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequests
+      x-status: inactive
       parameters:
         - name: userId
           required: false
@@ -1197,9 +1328,13 @@ paths:
     post:
       operationId: createVacationRequest
       summary: Post a new vacation request
-      description: Add new vacation request
+      description: |
+        Add new vacation request
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequests
+      x-status: inactive
       requestBody:
         description: New vacation request
         required: true
@@ -1225,9 +1360,13 @@ paths:
     get:
       operationId: findVacationRequest
       summary: Finds vacation request
-      description: Finds persisted vacation request
+      description: |
+        Finds persisted vacation request
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequests
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1252,9 +1391,13 @@ paths:
     put:
       operationId: updateVacationRequest
       summary: Updates vacation request
-      description: Update vacation request
+      description: |
+        Update vacation request
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequests
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1286,9 +1429,13 @@ paths:
     delete:
       operationId: deleteVacationRequest
       summary: Delete a vacation request.
-      description: Deletes a vacation request.
+      description: |
+        Deletes a vacation request.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequests
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1311,9 +1458,13 @@ paths:
     get:
       operationId: listVacationRequestStatuses
       summary: List vacation requests statuses
-      description: List vacation requests statuses
+      description: |
+        List vacation requests statuses
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequestStatus
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1340,9 +1491,13 @@ paths:
     post:
       operationId: createVacationRequestStatus
       summary: Post a new vacation request status
-      description: Add new vacation request status
+      description: |
+        Add new vacation request status
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequestStatus
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1376,9 +1531,13 @@ paths:
     get:
       operationId: findVacationRequestStatus
       summary: Finds vacation request status
-      description: Finds persisted vacation request status
+      description: |
+        Finds persisted vacation request status
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequestStatus
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1410,9 +1569,13 @@ paths:
     put:
       operationId: updateVacationRequestStatus
       summary: Updates vacation request status
-      description: Update vacation request status
+      description: |
+        Update vacation request status
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequestStatus
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1451,9 +1614,13 @@ paths:
     delete:
       operationId: deleteVacationRequestStatus
       summary: Delete a vacation request status.
-      description: Deletes a vacation requests status.
+      description: |
+        Deletes a vacation requests status.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - VacationRequestStatus
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1483,9 +1650,13 @@ paths:
     get:
       operationId: listUsersSkills
       summary: List UsersSkills
-      description: Lists UsersSkills
+      description: |
+        Lists UsersSkills
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - UsersSkills
+      x-status: inactive
       responses:
         "200":
           description: List of UsersSkills
@@ -1504,9 +1675,13 @@ paths:
     post:
       operationId: createUsersSkills
       summary: Post a new UsersSkills
-      description: Add new UsersSkills
+      description: |
+        Add new UsersSkills
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - UsersSkills
+      x-status: inactive
       requestBody:
         description: New UsersSkills
         required: true
@@ -1532,9 +1707,13 @@ paths:
     get:
       operationId: findUsersSkills
       summary: Finds a UsersSkills
-      description: Finds a UsersSkills
+      description: |
+        Finds a UsersSkills
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - UsersSkills
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1559,9 +1738,13 @@ paths:
     put:
       operationId: updateUsersSkills
       summary: Updates a UsersSkills
-      description: Update a UsersSkills
+      description: |
+        Update a UsersSkills
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - UsersSkills
+      x-status: inactive
       parameters:
         - name: id
           required: true
@@ -1593,9 +1776,13 @@ paths:
     delete:
       operationId: deleteUsersSkills
       summary: Delete a UsersSkills.
-      description: Deletes a UsersSkills.
+      description: |
+        Deletes a UsersSkills.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - UsersSkills
+      x-status: inactive
       parameters:
         - name: id
           required: true
