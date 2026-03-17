@@ -1796,9 +1796,13 @@ paths:
     get:
       operationId: getMemos
       summary: List memos
-      description: Retrieves the list of memos.
+      description: |
+        Retrieves the list of memos.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: date
           in: query
@@ -1826,9 +1830,13 @@ paths:
     get:
       operationId: getContentMemo
       summary: Get memo pdf content
-      description: Retrieves pdf file content
+      description: |
+        Retrieves pdf file content
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: fileId
           in: query
@@ -1890,9 +1898,13 @@ paths:
     get:
       operationId: getTranslatedMemoPdf
       summary: Get translated memo content
-      description: Retrieves the translated content of a memo PDF.
+      description: |
+        Retrieves the translated content of a memo PDF.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: id
           in: path
@@ -1934,9 +1946,13 @@ paths:
     post:
       operationId: createTranslatedMemoPdf
       summary: Create translated memo content
-      description: Creates/stores the translated content of a memo PDF to DynamoDB.
+      description: |
+        Creates/stores the translated content of a memo PDF to DynamoDB.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Memo
+      x-status: inactive
       parameters:
         - name: fileId
           in: query
