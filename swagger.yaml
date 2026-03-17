@@ -14,11 +14,8 @@ paths:
       summary: Get user's slack avatar by email
       description: |
         Fetches user's avatar from Slack by email
-
-        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Slack
-      x-status: inactive
       parameters:
         - name: email
           in: query
