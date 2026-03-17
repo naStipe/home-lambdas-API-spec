@@ -596,8 +596,7 @@ paths:
     get:
       operationId: listUsers
       summary: Get list of keycloak users.
-      description: |
-        Get list of keycloak users.
+      description: Get list of keycloak users.
       tags:
         - Users
       responses:
@@ -703,8 +702,7 @@ paths:
     get:
       operationId: findUser
       summary: Find user by keycloak id
-      description: |
-        Finds user by keycloak id in keycloak.
+      description: Finds user by keycloak id in keycloak.
       tags:
         - Users
       parameters:
