@@ -12,8 +12,7 @@ paths:
     get:
       operationId: getSlackUserAvatarByEmail
       summary: Get user's slack avatar by email
-      description: |
-        Fetches user's avatar from Slack by email
+      description: Fetches user's avatar from Slack by email
       tags:
         - Slack
       parameters:
