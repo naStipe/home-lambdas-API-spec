@@ -3253,7 +3253,7 @@ components:
           type: string
           enum:
             - single
-            - by-toc
+            - by-contents
             - by-toc-linked
           default: by-toc
           description: "single = one article; by-toc = split by headings; by-toc-linked = split by headings with cross-links"
