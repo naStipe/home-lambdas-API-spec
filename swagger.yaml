@@ -29,6 +29,32 @@ paths:
               schema:
                 $ref: '#/components/schemas/SlackAvatarResponse'
 
+  "/quiz/attempt":
+    post:
+      summary: Log a user's quiz attempt
+      description: Records a single user's answer for a quiz question, along with metadata for analytics.
+      tags:
+        - Bot Thesis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizAttempt'
+      responses:
+        '200':
+          description: Quiz attempt logged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizAttemptResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error" 
+                
   "/pipedrive/salesLeads":
     get:
       operationId: listSalesLeads
@@ -3185,4 +3211,63 @@ components:
             Indicates why an avatar is unavailable. This field is populated 
             only when `imageOriginal` is null or absent.  
             - `no_avatar`: Slack user exists but has no avatar set.  
-            - `email_mismatch`: No Slack user matches the provided email.  
+            - `email_mismatch`: No Slack user matches the provided email.
+    
+    QuizAttempt:
+      type: object
+      required:
+        - slack_user_id
+        - answered_correctly
+        - role
+        - topic
+        - topic_key
+        - difficulty
+        - date
+      properties:
+        slack_user_id:
+          type: string
+          description: Slack ID of the user who answered
+          example: U09BQADE64T
+        answered_correctly:
+          type: boolean
+          description: Whether the user answered correctly
+          example: true
+        role:
+          type: string
+          description: Role of the user
+          enum: [devops, developer, management]
+          example: devops
+        topic:
+          type: string
+          description: Human-readable topic of the question
+          example: "CI/CD security best practices"
+        topic_key:
+          type: string
+          description: Canonical topic key used for filtering/logging
+          example: ci_cd
+        difficulty:
+          type: string
+          description: Difficulty level of the question
+          enum: [easy, medium, hard]
+          example: medium
+        date:
+          type: string
+          description: Date the question was sent, in Finland timezone (YYYY-MM-DD)
+          example: "2026-03-24"
+
+    QuizAttemptResponse:
+      type: object
+      required:
+        - success
+        - streak
+      description: Response returned after logging a quiz attempt
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the attempt was logged successfully
+          example: true
+        streak:
+          type: integer
+          description: Current consecutive correct answer streak for the user
+          example: 3
+      
