@@ -824,20 +824,21 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/severa/users/{severaUserId}/status":
+  "/users/{userId}/status":
     put:
       operationId: updateUserStatus
       summary: Update user active status
-      description: Updates the isActive attribute of a user in Keycloak using the Severa user ID.
+      description: Updates the isActive attribute of a user in Keycloak.
       tags:
         - Users
       parameters:
-        - name: severaUserId
+        - name: userId
           in: path
           required: true
-          description: The Severa user ID used to identify the user.
+          description: The keycloak user ID used to identify the user.
           schema:
             type: string
+            format:uuid
       requestBody:
         required: true
         content:
