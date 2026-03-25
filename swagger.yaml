@@ -838,7 +838,7 @@ paths:
           description: The keycloak user ID used to identify the user.
           schema:
             type: string
-            format:uuid
+            format: uuid
       requestBody:
         required: true
         content:
