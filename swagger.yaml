@@ -54,7 +54,58 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error" 
-                
+  
+  "/quiz/user-details/{id}":
+      get:
+        summary: Get Slack ID, role, and difficulty for a quiz user
+        description: Fetches the user from Keycloak, retrieves their quiz streak, and calculates the difficulty level for the next quiz question.
+        tags:
+          - Bot Thesis
+        parameters:
+          - name: id
+            in: path
+            description: Keycloak user ID
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: User quiz details successfully retrieved
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/QuizUserDetailsResponse'
+          "400":
+            description: Bad request - missing path parameter or missing user attributes
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: Missing path parameter
+          "404":
+            description: User not found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: User not found
+          "500":
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: Internal server error
+                      
   "/pipedrive/salesLeads":
     get:
       operationId: listSalesLeads
@@ -3270,4 +3321,22 @@ components:
           type: integer
           description: Current consecutive correct answer streak for the user
           example: 3
+
+    QuizUserDetailsResponse:
+      type: object
+      properties:
+        slackUserId:
+          type: string
+          description: Slack user ID of the user
+          example: U12345678
+        role:
+          type: string
+          description: Role of the user
+          enum: [devops, developer, management]
+          example: devops
+        difficulty:
+          type: string
+          description: Calculated difficulty based on the user's streak
+          enum: [easy, medium, hard]
+          example: medium
       
