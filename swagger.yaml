@@ -3456,6 +3456,7 @@ components:
           example: medium
         date:
           type: string
+          format: date
           description: Date the question was sent, in Finland timezone (YYYY-MM-DD)
           example: "2026-03-24"
 
