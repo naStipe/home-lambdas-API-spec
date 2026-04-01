@@ -29,26 +29,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/SlackAvatarResponse'
 
-  "/quiz/attempt":
+  "/coach/answer":
     post:
-      operationId: createQuizAttempt
-      summary: Log a user's quiz attempt
+      operationId: createCoachBotAnswer
+      summary: Log a user's answer for a coach bot quiz question
       description: Records a single user's answer for a quiz question, along with metadata for analytics.
       tags:
-        - Bot Thesis
+        - Coach
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QuizAttempt'
+              $ref: '#/components/schemas/CoachAnswer'
       responses:
         '200':
-          description: Quiz attempt logged successfully
+          description: Coach bot answer logged successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QuizAttemptResponse'
+                $ref: '#/components/schemas/CoachAnswerResponse'
         '400':
           description: Invalid request
           content:
@@ -56,13 +56,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error" 
   
-  "/quiz/user-details/{userId}":
+  "/coach/user-details/{userId}":
       get:
-        operationId: getUserDetails
-        summary: Get Slack ID, role, and difficulty for a quiz user
-        description: Fetches the user from Keycloak, retrieves their quiz streak, and calculates the difficulty level for the next quiz question.
+        operationId: getCoachUserDetails
+        summary: Get Slack ID, role, and difficulty for a user
+        description: Fetches the user from Keycloak, retrieves their streak, and calculates the difficulty level for the next coach question.
         tags:
-          - Bot Thesis
+          - Coach
         parameters:
           - name: userId
             in: path
@@ -76,7 +76,7 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/QuizUserDetailsResponse'
+                  $ref: '#/components/schemas/CoachUserDetailsResponse'
           "400":
             description: Bad request - Invalid user ID
             content:
@@ -3417,7 +3417,7 @@ components:
             - `no_avatar`: Slack user exists but has no avatar set.  
             - `email_mismatch`: No Slack user matches the provided email.
     
-    QuizAttempt:
+    CoachAnswer:
       type: object
       required:
         - slackUserId
@@ -3460,7 +3460,7 @@ components:
           description: Date the question was sent, in Finland timezone (YYYY-MM-DD)
           example: "2026-03-24"
 
-    QuizAttemptResponse:
+    CoachAnswerResponse:
       type: object
       required:
         - success
@@ -3476,7 +3476,7 @@ components:
           description: Current consecutive correct answer streak for the user
           example: 3
 
-    QuizUserDetailsResponse:
+    CoachUserDetails:
       type: object
       properties:
         slackUserId:
