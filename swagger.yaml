@@ -901,6 +901,108 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/users/{userId}/status":
+    put:
+      operationId: updateUserStatus
+      summary: Update user active status
+      description: Updates the isActive attribute of a user in Keycloak.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The keycloak user ID used to identify the user.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - isActive
+              properties:
+                isActive:
+                  type: boolean
+                  description: Whether the user is active or not
+      responses:
+        "200":
+          description: User status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User status updated
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"              
+
+  "/users/{userId}/status":
+    put:
+      operationId: updateUserStatus
+      summary: Update user active status
+      description: Updates the isActive attribute of a user in Keycloak.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The keycloak user ID used to identify the user.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - isActive
+              properties:
+                isActive:
+                  type: boolean
+                  description: Whether the user is active or not
+      responses:
+        "200":
+          description: User status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User status updated
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"              
+
   "/questionnaires":
     get:
       operationId: listQuestionnaires
@@ -2249,11 +2351,10 @@ paths:
     post:
       operationId: uploadFileForArticle
       summary: Upload a file
-      description: Create a presigned URL for actual file upload.
+      description: Returns a presigned URL. Images are allowed for all authenticated users; PDFs require admin role.
       tags:
         - Article
       requestBody:
-        description: Metadata of the new file to upload
         required: true
         content:
           application/json:
@@ -2261,19 +2362,29 @@ paths:
               $ref: "#/components/schemas/FileMetadata"
       responses:
         "200":
-          description: Created presigned URL
+          description: Presigned URL
           content:
             application/json:
               schema:
                 type: object
-                description: Presigned URL object
                 required:
                   - data
                 properties:
                   data:
                     type: string
                     format: uri
-                    description: Generated presigned URL
+        "400":
+          description: Unsupported content type.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: PDF uploads require admin privileges.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -2304,6 +2415,51 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/FileMetadata"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/import-document":
+    post:
+      operationId: importDocument
+      summary: Import a PDF document as wiki articles
+      description: Parses a PDF from S3 and creates wiki articles based on the chosen import mode. Requires admin role.
+      tags:
+        - Article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentImportRequest"
+      responses:
+        "200":
+          description: Import result summary with created articles.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentImportResult"
+        "403":
+          description: Access denied. Admin privileges required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: One or more articles already exist at the target path.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: No sections could be detected in the PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -3226,6 +3382,15 @@ components:
         draft:
           type: boolean
           description: Marker of draft articles
+        importGroup:
+          type: string
+          description: Groups articles that were imported together from the same source document (e.g. security-policy)
+        order:
+          type: integer
+          description: Position of the article within its import group for ordered navigation
+        parentPath:
+          type: string
+          description: Path of the parent article, enabling hierarchy display in the UI
 
     Article:
       allOf:
@@ -3240,15 +3405,60 @@ components:
 
     FileMetadata:
       type: object
+      required:
+        - path
+        - contentType
       properties:
         path:
           type: string
+          description: S3 object key for the file
         contentType:
           type: string
+          description: "MIME type of the file (e.g. image/png, application/pdf)"
+
+    DocumentImportRequest:
+      type: object
+      required:
+        - Path
+        - documentTitle
+      properties:
+        Path:
+          type: string
+          description: Same value as FileMetadata.path that was sent in the /articles/upload-file request body.
+        documentTitle:
+          type: string
+          description: Human-readable title for the document, also used as the base URL path
+        importMode:
+          type: string
+          enum:
+            - single
+            - by-contents
+            - by-toc-linked
+          default: by-toc
+          description: "single = one article; by-toc = split by headings; by-toc-linked = split by headings with cross-links"
+        overwriteExisting:
+          type: boolean
+          default: false
+          description: When true, articles at conflicting paths are updated rather than skipped
+
+    DocumentImportResult:
+      type: object
+      properties:
+        basePath:
+          type: string
+        importMode:
+          type: string
+        created:
+          type: integer
+        skipped:
+          type: integer
+        articles:
+          type: array
+          items:
+            $ref: "#/components/schemas/ArticleMetadata"
     
     SlackAvatarResponse:
       type: object
-      description: Response containing Slack avatar information. Returns imageOriginal when available, or reason when the avatar cannot be retrieved.
       properties:
         imageOriginal:
           type: string
