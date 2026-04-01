@@ -31,6 +31,7 @@ paths:
 
   "/quiz/attempt":
     post:
+      operationId: createQuizAttempt
       summary: Log a user's quiz attempt
       description: Records a single user's answer for a quiz question, along with metadata for analytics.
       tags:
@@ -55,14 +56,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error" 
   
-  "/quiz/user-details/{id}":
+  "/quiz/user-details/{userId}":
       get:
+        operationId: getUserDetails
         summary: Get Slack ID, role, and difficulty for a quiz user
         description: Fetches the user from Keycloak, retrieves their quiz streak, and calculates the difficulty level for the next quiz question.
         tags:
           - Bot Thesis
         parameters:
-          - name: id
+          - name: userId
             in: path
             description: Keycloak user ID
             required: true
@@ -76,7 +78,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/QuizUserDetailsResponse'
           "400":
-            description: Bad request - missing path parameter or missing user attributes
+            description: Bad request - Invalid user ID
             content:
               application/json:
                 schema:
@@ -90,21 +92,13 @@ paths:
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    error:
-                      type: string
-                      example: User not found
+                  $ref: "#/components/schemas/Error"
           "500":
             description: Internal server error
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    error:
-                      type: string
-                      example: Internal server error
+                  $ref: "#/components/schemas/Error"
                       
   "/pipedrive/salesLeads":
     get:
@@ -900,57 +894,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
-  "/users/{userId}/status":
-    put:
-      operationId: updateUserStatus
-      summary: Update user active status
-      description: Updates the isActive attribute of a user in Keycloak.
-      tags:
-        - Users
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          description: The keycloak user ID used to identify the user.
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - isActive
-              properties:
-                isActive:
-                  type: boolean
-                  description: Whether the user is active or not
-      responses:
-        "200":
-          description: User status updated successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: User status updated
-        "400":
-          description: Invalid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"              
 
   "/users/{userId}/status":
     put:
@@ -3477,19 +3420,19 @@ components:
     QuizAttempt:
       type: object
       required:
-        - slack_user_id
-        - answered_correctly
+        - slackUserId
+        - answeredCorrectly
         - role
         - topic
         - topic_key
         - difficulty
         - date
       properties:
-        slack_user_id:
+        slackUserId:
           type: string
           description: Slack ID of the user who answered
           example: U09BQADE64T
-        answered_correctly:
+        answeredCorrectly:
           type: boolean
           description: Whether the user answered correctly
           example: true
