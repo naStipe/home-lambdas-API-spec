@@ -3445,7 +3445,7 @@ components:
           type: string
           description: Human-readable topic of the question
           example: "CI/CD security best practices"
-        topic_key:
+        topicKey:
           type: string
           description: Canonical topic key used for filtering/logging
           example: ci_cd
