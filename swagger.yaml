@@ -3476,7 +3476,7 @@ components:
           description: Current consecutive correct answer streak for the user
           example: 3
 
-    CoachUserDetails:
+    CoachUserDetailsResponse:
       type: object
       properties:
         slackUserId:
