@@ -3499,4 +3499,19 @@ components:
           description: Calculated difficulty based on the user's streak
           enum: [easy, medium, hard]
           example: medium
+          
+      CoachBotDuplicateError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Error code for duplicate answer
+          example: ALREADY_ANSWERED
+        message:
+          type: string
+          description: Human-readable message
+          example: "User has already answered today's question"
       
