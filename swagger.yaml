@@ -56,11 +56,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
         '409':
-            description: User has already answered today's question
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/CoachBotDuplicateError' 
+          description: User has already answered today's question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
   
   "/coach/user-details/{userId}":
       get:
@@ -3499,19 +3499,4 @@ components:
           description: Calculated difficulty based on the user's streak
           enum: [easy, medium, hard]
           example: medium
-          
-    CoachBotDuplicateError:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          description: Error code for duplicate answer
-          example: ALREADY_ANSWERED
-        message:
-          type: string
-          description: Human-readable message
-          example: "User has already answered today's question"
         
