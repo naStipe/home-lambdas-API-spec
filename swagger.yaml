@@ -41,16 +41,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CoachAnswer'
+              $ref: "#/components/schemas/CoachAnswer"
       responses:
-        '200':
+        "200":
           description: Coach bot answer logged successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CoachAnswerResponse'
-        '400':
+                $ref: "#/components/schemas/CoachAnswerResponse"
+        "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: User has already answered today's question
           content:
             application/json:
               schema:
@@ -76,7 +82,7 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/CoachUserDetailsResponse'
+                  $ref: "#/components/schemas/CoachUserDetailsResponse"
           "400":
             description: Bad request - Invalid user ID
             content:
@@ -3493,4 +3499,3 @@ components:
           description: Calculated difficulty based on the user's streak
           enum: [easy, medium, hard]
           example: medium
-      
