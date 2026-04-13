@@ -2420,6 +2420,36 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  "/jobs/vacation-slack-sync":
+    post:
+      operationId: vacationSlackSync
+      summary: Checks for vacations starting at the current time and updates Slack status
+      description: Internal job triggered by a scheduler based on a configured cron expression.
+        This job runs periodically and is responsible for checking vacation data
+        and synchronizing Slack user statuses accordingly.
+
+        The job evaluates which vacations start  at the current time and updates Slack status for users whose vacation is starting
+
+        This endpoint is documented for specification completeness and
+        is not intended to be invoked manually.
+      tags:
+        - Slack
+        - Vacation
+        - Jobs
+      responses:
+        "200":
+          description: Vacation Slack synchronization job executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationSlackSyncResult'
+        "500":
+          description: Internal server error during job execution
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -3504,3 +3534,19 @@ components:
           description: Calculated difficulty based on the user's streak
           enum: [easy, medium, hard]
           example: medium
+
+    VacationSlackSyncResult:
+      type: object
+      required:
+        - processedUsers
+        - startedVacations
+        - endedVacations
+      properties:
+        processedUsers:
+          type: integer
+          description: Number of users whose status was updated
+          example: 5
+        startedVacations:
+          type: integer
+          description: Number of vacations that started
+          example: 3
