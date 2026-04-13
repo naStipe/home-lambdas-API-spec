@@ -2425,7 +2425,7 @@ paths:
       operationId: vacationSlackSync
       summary: Checks for vacations starting at the current time and updates Slack status
       description: Internal job triggered by a scheduler based on a configured cron expression.
-        This job runs periodically and is responsible for checking vacation data
+        This job runs dailly and is responsible for checking vacation data
         and synchronizing Slack user statuses accordingly.
 
         The job evaluates which vacations start  at the current time and updates Slack status for users whose vacation is starting
@@ -3550,3 +3550,7 @@ components:
           type: integer
           description: Number of vacations that started
           example: 3
+        endedVacations:
+          type: integer
+          description: Number of vacations that ended
+          example: 2
