@@ -1307,13 +1307,6 @@ paths:
           description: Filter Vacation Requests by draft state
           schema:
             type: boolean
-        - name: startsOn
-          required: false
-          in: query
-          description: Return vacation requests that start on the given date (YYYY-MM-DD).
-          schema:
-            type: string
-            format: date
         - name: status
           required: false
           in: query
