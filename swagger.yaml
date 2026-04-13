@@ -1270,7 +1270,7 @@ paths:
     get:
       operationId: listVacationRequests
       summary: List vacation requests
-      description: Lists persisted vacation requests
+      description: Lists persisted vacation requests and supports date-based filtering for Slack away synchronization jobs.
       tags:
         - VacationRequests
       parameters:
@@ -1301,6 +1301,19 @@ paths:
           description: Filter Vacation Requests by draft state
           schema:
             type: boolean
+        - name: startsOn
+          required: false
+          in: query
+          description: Return vacation requests that start on the given date (YYYY-MM-DD).
+          schema:
+            type: string
+            format: date
+        - name: status
+          required: false
+          in: query
+          description: Filter vacation requests by current approval status.
+          schema:
+            $ref: "#/components/schemas/VacationRequestStatuses"
       responses:
         "200":
           description: List of vacation requests.
@@ -2408,47 +2421,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/slack/set-user-away":
-    post:
-      operationId: setSlackUserAway
-      summary: Set Slack user as away during vacation
-      description: Saves a request to update a user's Slack profile status when vacation starts. When the startDate arrives, the backend automatically updates the user's status in Slack with emoji and status text, with automatic expiration on the vacation end date. No notifications are sent to channels.
-      tags:
-        - Slack
-        - Vacation
-      requestBody:
-        required: true
-        description: Vacation details for scheduling Slack away status update
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SlackUserAwayRequest'
-      responses:
-        "200":
-          description: Request saved successfully. Slack status will be updated on the startDate with automatic expiration on endDate.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SlackUserAwayResponse'
-        "400":
-          description: Invalid request - missing required fields or invalid date format
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "404":
-          description: Slack user not found with provided email
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
 components:
   securitySchemes:
     bearerAuth:
@@ -2974,7 +2946,7 @@ components:
 
     VacationRequestStatuses:
       type: string
-      description: Enum for vacation request status
+      description: Enum for vacation request status. Slack away synchronization is allowed only for APPROVED vacations.
       enum:
         - PENDING
         - APPROVED
@@ -3533,57 +3505,3 @@ components:
           description: Calculated difficulty based on the user's streak
           enum: [easy, medium, hard]
           example: medium
-
-    SlackUserAwayRequest:
-      type: object
-      description: Request to mark a Slack user as away during vacation. The backend uses startDate to know when to trigger the Slack status update, and endDate to set the automatic expiration. No notifications are sent to channels.
-      required:
-        - email
-        - startDate
-        - endDate
-      properties:
-        email:
-          type: string
-          format: email
-          description: Email address of the user to mark as away in Slack (used to lookup Slack user ID)
-          example: username@company.com
-        startDate:
-          type: string
-          format: date
-          description: Start date of the vacation in YYYY-MM-DD format. Backend uses this to know when to make the request to Slack API.
-          example: "2026-04-15"
-        endDate:
-          type: string
-          format: date
-          description: End date of the vacation in YYYY-MM-DD format. Slack automatically clears the status at this time.
-          example: "2026-04-22"
-
-    SlackUserAwayResponse:
-      type: object
-      description: Response confirming that the Slack away status request has been saved. The actual Slack profile update will occur on the startDate with automatic expiration on endDate.
-      properties:
-        saved:
-          type: boolean
-          description: Indicates the request has been saved and is pending the startDate
-          example: true
-        slackUserId:
-          type: string
-          description: Slack user ID that will be updated (from users.profile.get lookup)
-          example: U12345678
-        email:
-          type: string
-          description: Email address of the user for which the request was saved
-          example: username@company.com
-        scheduledFor:
-          type: string
-          format: date-time
-          nullable: true
-          description: When the Slack status update is scheduled to occur (startDate at 00:00:00)
-          example: "2026-04-15T00:00:00Z"
-        expiresAt:
-          type: string
-          format: date-time
-          nullable: true
-          description: When the away status will automatically expire in Slack (endDate at 23:59:59)
-          example: "2026-04-22T23:59:59Z"
-      
