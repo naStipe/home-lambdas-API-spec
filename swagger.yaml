@@ -1276,7 +1276,7 @@ paths:
     get:
       operationId: listVacationRequests
       summary: List vacation requests
-      description: Lists persisted vacation requests
+      description: Lists persisted vacation requests and supports date-based filtering for Slack away synchronization jobs.
       tags:
         - VacationRequests
       parameters:
@@ -1307,6 +1307,12 @@ paths:
           description: Filter Vacation Requests by draft state
           schema:
             type: boolean
+        - name: status
+          required: false
+          in: query
+          description: Filter vacation requests by current approval status.
+          schema:
+            $ref: "#/components/schemas/VacationRequestStatuses"
       responses:
         "200":
           description: List of vacation requests.
@@ -1819,8 +1825,7 @@ paths:
       operationId: createCard
       summary: Create a new Trello card
       description: |
-        Adds a new card to a Trello board.
-                   
+        Adds a new card to a Trello board.       
         **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
@@ -1864,8 +1869,7 @@ paths:
       operationId: deleteCard
       summary: Delete a Trello card by ID
       description: |
-        Deletes a Trello card identified by its unique ID.
-                   
+        Deletes a Trello card identified by its unique ID.       
         **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Trello
@@ -2415,6 +2419,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  "/jobs/vacation-slack-sync":
+    post:
+      operationId: vacationSlackSync
+      summary: Checks for vacations starting at the current time and updates Slack status
+      description: Internal job triggered by a scheduler based on a configured cron expression.
+        This job runs daily and is responsible for checking vacation data
+        and synchronizing Slack user statuses accordingly.
+
+        The job evaluates which vacations start  at the current time and updates Slack status for users whose vacation is starting
+
+        This endpoint is documented for specification completeness and
+        is not intended to be invoked manually.
+      tags:
+        - Slack
+        - Vacation
+        - Jobs
+      responses:
+        "200":
+          description: Vacation Slack synchronization job executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacationSlackSyncResult'
+        "500":
+          description: Internal server error during job execution
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -2940,7 +2975,7 @@ components:
 
     VacationRequestStatuses:
       type: string
-      description: Enum for vacation request status
+      description: Enum for vacation request status. Slack away synchronization is allowed only for APPROVED vacations.
       enum:
         - PENDING
         - APPROVED
@@ -3499,3 +3534,23 @@ components:
           description: Calculated difficulty based on the user's streak
           enum: [easy, medium, hard]
           example: medium
+
+    VacationSlackSyncResult:
+      type: object
+      required:
+        - processedUsers
+        - startedVacations
+        - endedVacations
+      properties:
+        processedUsers:
+          type: integer
+          description: Number of users whose status was updated
+          example: 5
+        startedVacations:
+          type: integer
+          description: Number of vacations that started
+          example: 3
+        endedVacations:
+          type: integer
+          description: Number of vacations that ended
+          example: 2
