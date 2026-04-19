@@ -1363,7 +1363,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/usersSkills/{id}":
+  "/usersSkills/{userId}":
     get:
       operationId: findUsersSkills
       summary: Finds a UsersSkills
@@ -1371,10 +1371,10 @@ paths:
       tags:
         - UsersSkills
       parameters:
-        - name: id
+        - name: userId
           required: true
           in: path
-          description: Id of a UsersSkills
+          description: User`s Keycloak Id
           schema:
             type: string
             format: uuid
@@ -1398,10 +1398,10 @@ paths:
       tags:
         - UsersSkills
       parameters:
-        - name: id
+        - name: userId
           required: true
           in: path
-          description: Id of a UsersSkills
+          description: User`s Keycloak Id
           schema:
             type: string
             format: uuid
@@ -1432,10 +1432,10 @@ paths:
       tags:
         - UsersSkills
       parameters:
-        - name: id
+        - name: userId
           required: true
           in: path
-          description: Id of a UsersSkills
+          description: User`s Keycloak Id
           schema:
             type: string
             format: uuid
@@ -2168,6 +2168,11 @@ components:
         - years
         - category
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of a specific skill of a user
+          default: null
         name:
           type: string
           description: Name of the skill
@@ -2184,7 +2189,7 @@ components:
       required:
         - name
       properties:
-        id:
+        userId:
           type: string
           format: uuid
           description: User`s Keycloak Id
